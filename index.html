@@ -143,6 +143,9 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
 .badge.ok{background:var(--green-soft);color:var(--green)}
 .badge.warn{background:var(--amber-soft);color:var(--amber)}
 .badge.mut{background:var(--muted);color:var(--fg-2)}
+.badge.sys{background:var(--accent-soft);color:var(--accent)}
+.oldform{font-size:.65625rem;font-weight:700;padding:2px 7px;border-radius:5px;
+  background:var(--muted);color:var(--muted-fg);letter-spacing:.02em;white-space:nowrap}
 .icon-btn{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:var(--fg-2);
   transition:background 150ms ease,transform 160ms var(--ease)}
 .icon-btn:hover{background:var(--muted)}
@@ -283,6 +286,7 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
     <symbol id="ic-chevr" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
     <symbol id="ic-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
     <symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
+    <symbol id="ic-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
     <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
     <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
     <symbol id="ic-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
@@ -302,6 +306,7 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
     <button class="nav-btn" data-nav="people" onclick="go('people')"><svg class="i"><use href="#ic-users"/></svg> Προσωπικό</button>
     <button class="nav-btn" onclick="go('home')"><svg class="i"><use href="#ic-money"/></svg> Μισθοδοσίες</button>
     <button class="nav-btn" data-nav="oblig" onclick="go('oblig')"><svg class="i"><use href="#ic-file"/></svg> Υποχρεώσεις</button>
+    <button class="nav-btn" data-nav="docs" onclick="go('docs')"><svg class="i"><use href="#ic-book"/></svg> Έγγραφα</button>
     <button class="nav-btn" data-nav="settings" onclick="go('settings')"><svg class="i"><use href="#ic-set"/></svg> Ρυθμίσεις</button>
     <div class="foot">Concept mockup<br>Ενδεικτικά δεδομένα</div>
   </nav>
@@ -595,6 +600,148 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
           </section>
         </div>
 
+      </div>
+    </main>
+
+    <!-- ================= ΕΓΓΡΑΦΑ (glossary + prefilled downloads) ================= -->
+    <main class="view" id="view-docs">
+      <div class="content">
+        <div class="people-top">
+          <h1>Έγγραφα</h1>
+          <span class="sub" style="align-self:center">Όλα κατεβαίνουν προσυμπληρωμένα με τα στοιχεία του οργανισμού σου</span>
+        </div>
+        <div class="search" style="margin-bottom:16px">
+          <svg class="i"><use href="#ic-search"/></svg>
+          <input type="search" placeholder="Ψάξε έγγραφο — δουλεύει και με τα παλιά ονόματα (π.χ. Ε4, ΑΠΔ)…" aria-label="Αναζήτηση εγγράφων" oninput="filterDocs(this.value)">
+        </div>
+
+        <section class="card doc-card">
+          <div class="hd">Όταν προσλαμβάνεις</div>
+          <div class="bd">
+            <div class="row doc-row">
+              <span class="t"><b>Ψηφιακή Αναγγελία Έναρξης Εργασίας</b> <span class="oldform">πρώην Ε3</span><br>
+                <span class="sub2">Η δήλωση της πρόσληψης — υποβάλλεται πριν την πρώτη μέρα· ο εργαζόμενος την αποδέχεται στο myErgani, αλλιώς ακυρώνεται αυτόματα</span></span>
+              <span class="badge sys">ΕΡΓΑΝΗ ΙΙ</span>
+              <button class="icon-btn" aria-label="Λήψη προσυμπληρωμένης αναγγελίας"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Σύμβαση εργασίας</b><br>
+                <span class="sub2">Το συμφωνητικό με τον εργαζόμενο — αορίστου, ορισμένου ή μερικής· υπογράφεται πριν την έναρξη</span></span>
+              <span class="badge mut">Εσωτερικό</span>
+              <button class="icon-btn" aria-label="Λήψη προσυμπληρωμένης σύμβασης"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Γνωστοποίηση όρων εργασίας</b><br>
+                <span class="sub2">Έγγραφη ενημέρωση του εργαζομένου για τους βασικούς όρους (ρόλος, αποδοχές, ωράριο) — παραδίδεται κατά την πρόσληψη</span></span>
+              <span class="badge mut">Στον εργαζόμενο</span>
+              <button class="icon-btn" aria-label="Λήψη γνωστοποίησης όρων"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card doc-card mt">
+          <div class="hd">Κάθε μήνα</div>
+          <div class="bd">
+            <div class="row doc-row">
+              <span class="t"><b>ΑΠΔ — Αναλυτική Περιοδική Δήλωση</b><br>
+                <span class="sub2">Ποιος δούλεψε, πόσες μέρες, με τι αποδοχές και εισφορές — το αρχείο ανεβαίνει στο e-ΕΦΚΑ ως το τέλος του επόμενου μήνα</span></span>
+              <span class="badge sys">e-ΕΦΚΑ</span>
+              <button class="icon-btn" aria-label="Λήψη αρχείου ΑΠΔ"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Αποδείξεις αποδοχών (εκκαθαριστικά)</b><br>
+                <span class="sub2">Η ανάλυση μισθού κάθε εργαζομένου — μικτά, κρατήσεις, καθαρά· παραδίδεται με την πληρωμή</span></span>
+              <span class="badge mut">Στον εργαζόμενο</span>
+              <button class="icon-btn" aria-label="Λήψη αποδείξεων"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Μισθοδοτική κατάσταση</b><br>
+                <span class="sub2">Η συνολική εικόνα του μήνα ανά εργαζόμενο και τμήμα — ό,τι σου στέλνει σήμερα ο λογιστής σε xlsx</span></span>
+              <span class="badge mut">Εσωτερικό</span>
+              <button class="icon-btn" aria-label="Λήψη μισθοδοτικής κατάστασης"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Δήλωση ΦΜΥ</b><br>
+                <span class="sub2">Ο φόρος που παρακρατήθηκε από τους μισθούς — δηλώνεται στο myAADE ως το τέλος του επόμενου μήνα</span></span>
+              <span class="badge sys">myAADE</span>
+              <button class="icon-btn" aria-label="Λήψη ποσών ΦΜΥ"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Αρχείο πληρωμών τράπεζας</b><br>
+                <span class="sub2">Μαζική εντολή μισθών για ανέβασμα στο e-banking — όλες οι πληρωμές με ένα αρχείο</span></span>
+              <span class="badge mut">Τράπεζα</span>
+              <button class="icon-btn" aria-label="Λήψη αρχείου τράπεζας"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card doc-card mt">
+          <div class="hd">Ωράριο &amp; αλλαγές</div>
+          <div class="bd">
+            <div class="row doc-row">
+              <span class="t"><b>Ψηφιακή Δήλωση Μεταβολής Στοιχείων</b> <span class="oldform">πρώην Ε4 τροποπ.</span><br>
+                <span class="sub2">Κάθε αλλαγή σε αποδοχές ή όρους εργασίας — υποβάλλεται πριν ισχύσει η αλλαγή</span></span>
+              <span class="badge sys">ΕΡΓΑΝΗ ΙΙ</span>
+              <button class="icon-btn" aria-label="Λήψη δήλωσης μεταβολής"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Δήλωση ωραρίου &amp; υπερωριών (ΨΟΧΕ)</b> <span class="oldform">πρώην Ε8</span><br>
+                <span class="sub2">Το πρόγραμμα εργασίας και οι υπερωρίες — δηλώνονται ψηφιακά πριν συμβούν</span></span>
+              <span class="badge sys">ΕΡΓΑΝΗ ΙΙ</span>
+              <button class="icon-btn" aria-label="Λήψη δήλωσης ωραρίου"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Πίνακας Προσωπικού (τρέχουσα εικόνα)</b> <span class="oldform">πρώην Ε4</span><br>
+                <span class="sub2">Η σημερινή κατάσταση όλου του προσωπικού σε PDF — για έλεγχο ΣΕΠΕ, τράπεζα ή λογιστή· το ετήσιο έντυπο καταργήθηκε 2/2026</span></span>
+              <span class="badge mut">Εσωτερικό</span>
+              <button class="icon-btn" aria-label="Λήψη πίνακα προσωπικού"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card doc-card mt">
+          <div class="hd">Άδειες &amp; απουσίες</div>
+          <div class="bd">
+            <div class="row doc-row">
+              <span class="t"><b>Ψηφιακή δήλωση άδειας</b> <span class="oldform">πρώην Ε11 + Βιβλίο Αδειών</span><br>
+                <span class="sub2">Κάθε άδεια δηλώνεται πριν ξεκινήσει — το παλιό βιβλίο αδειών και το ετήσιο Ε11 καταργήθηκαν από 1/1/2026</span></span>
+              <span class="badge sys">ΕΡΓΑΝΗ ΙΙ</span>
+              <button class="icon-btn" aria-label="Λήψη δήλωσης άδειας"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Αίτηση άδειας</b><br>
+                <span class="sub2">Η εσωτερική αίτηση του εργαζομένου — για το αρχείο σου, με τα υπόλοιπα ημερών ενημερωμένα</span></span>
+              <span class="badge mut">Εσωτερικό</span>
+              <button class="icon-btn" aria-label="Λήψη αίτησης άδειας"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card doc-card mt">
+          <div class="hd">Όταν αποχωρεί κάποιος</div>
+          <div class="bd">
+            <div class="row doc-row">
+              <span class="t"><b>Ψηφιακή Αναγγελία Λύσης/Λήξης Σύμβασης</b> <span class="oldform">πρώην Ε5/Ε6/Ε7</span><br>
+                <span class="sub2">Παραίτηση, απόλυση ή λήξη ορισμένου χρόνου — μία δήλωση για όλα, εντός 4 εργάσιμων ημερών</span></span>
+              <span class="badge sys">ΕΡΓΑΝΗ ΙΙ</span>
+              <button class="icon-btn" aria-label="Λήψη αναγγελίας λύσης"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Υπολογισμός αποζημίωσης απόλυσης</b><br>
+                <span class="sub2">Πόση αποζημίωση αναλογεί με βάση προϋπηρεσία και προειδοποίηση — με πλήρη ανάλυση του υπολογισμού</span></span>
+              <span class="badge mut">Εσωτερικό</span>
+              <button class="icon-btn" aria-label="Λήψη υπολογισμού αποζημίωσης"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row doc-row">
+              <span class="t"><b>Βεβαίωση αποδοχών</b><br>
+                <span class="sub2">Τι πληρώθηκε συνολικά ο εργαζόμενος — τη ζητά για δάνεια, επιδόματα ή τη φορολογική του δήλωση</span></span>
+              <span class="badge mut">Στον εργαζόμενο</span>
+              <button class="icon-btn" aria-label="Λήψη βεβαίωσης αποδοχών"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+          </div>
+        </section>
+
+        <p class="sub" id="docsEmpty" style="display:none;text-align:center;padding:24px">Κανένα έγγραφο δεν ταιριάζει — δοκίμασε άλλη λέξη ή το παλιό όνομα του εντύπου.</p>
       </div>
     </main>
 
@@ -900,6 +1047,23 @@ document.addEventListener('keydown',e=>{
     document.getElementById('orgBtn').setAttribute('aria-expanded','false');
   }
 });
+
+// document library search — filters rows, hides empty sections
+function filterDocs(q){
+  q=q.trim().toLowerCase();
+  let any=false;
+  document.querySelectorAll('#view-docs .doc-card').forEach(card=>{
+    let cardHas=false;
+    card.querySelectorAll('.doc-row').forEach(r=>{
+      const hit=!q || r.textContent.toLowerCase().includes(q);
+      r.style.display=hit?'':'none';
+      if(hit) cardHas=true;
+    });
+    card.style.display=cardHas?'':'none';
+    if(cardHas) any=true;
+  });
+  document.getElementById('docsEmpty').style.display=any?'none':'';
+}
 
 // settings toggles
 function tog(el){
