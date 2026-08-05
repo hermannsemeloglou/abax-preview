@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>abax · Μισθοδοσία — Concept</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#F8FAFC; --card:#FFFFFF; --fg:#0F172A; --fg-2:#475569; --muted-fg:#64748B;
+  --border:#E2E8F0; --muted:#F1F5F9;
+  --accent:#0369A1; --accent-hover:#075985; --accent-soft:#E0F2FE;
+  --green:#047857; --green-soft:#ECFDF5;
+  --amber:#B45309; --amber-soft:#FFFBEB; --amber-border:#FDE68A;
+  --red:#DC2626;
+  --ease:cubic-bezier(0.23,1,0.32,1);
+  --r:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--fg);
+  -webkit-font-smoothing:antialiased;font-size:.9375rem;line-height:1.5}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.num{font-variant-numeric:tabular-nums}
+svg.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ---------- layout ---------- */
+.app{display:flex;min-height:100dvh}
+.side{width:230px;flex:none;border-right:1px solid var(--border);background:var(--card);
+  padding:20px 12px;display:flex;flex-direction:column;gap:2px;position:sticky;top:0;height:100dvh}
+.logo{display:flex;align-items:center;gap:10px;padding:6px 10px 22px;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
+.logo .mark{width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;
+  display:grid;place-items:center;font-size:.95rem;font-weight:700}
+.nav-btn{display:flex;align-items:center;gap:11px;width:100%;padding:9px 10px;border-radius:8px;
+  color:var(--fg-2);font-weight:500;transition:background 150ms ease,color 150ms ease}
+.nav-btn:hover{background:var(--muted)}
+.nav-btn.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.nav-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.side .foot{margin-top:auto;padding:10px;font-size:.75rem;color:var(--muted-fg)}
+
+.main{flex:1;min-width:0}
+.topbar{display:flex;align-items:center;gap:14px;padding:14px 32px;border-bottom:1px solid var(--border);
+  background:var(--card);position:sticky;top:0;z-index:10}
+/* org switcher */
+.orgwrap{position:relative}
+.org-btn{display:flex;align-items:center;gap:8px;font-weight:600;padding:6px 10px;border-radius:8px;
+  transition:background 150ms ease}
+.org-btn:hover{background:var(--muted)}
+.org-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.org-mark{width:22px;height:22px;border-radius:6px;background:var(--accent-soft);color:var(--accent);
+  display:grid;place-items:center;font-size:.71875rem;font-weight:700;flex:none}
+.menu{position:absolute;top:calc(100% + 6px);left:0;min-width:240px;background:var(--card);
+  border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgb(15 23 42 / .12);
+  padding:6px;z-index:50;transform-origin:top left;opacity:0;transform:scale(.96);
+  pointer-events:none;transition:transform 160ms var(--ease),opacity 160ms var(--ease)}
+.menu.open{opacity:1;transform:none;pointer-events:auto}
+.menu button{display:flex;width:100%;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;
+  font-size:.875rem;font-weight:500;text-align:left;transition:background 130ms ease}
+.menu button:hover{background:var(--muted)}
+.menu .sep{height:1px;background:var(--border);margin:6px 4px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;
+  font-size:.8125rem;font-weight:600;background:var(--muted);color:var(--fg-2)}
+.pill.period{background:var(--accent-soft);color:var(--accent)}
+.topbar .spacer{flex:1}
+.avatar{width:32px;height:32px;border-radius:999px;background:var(--muted);display:grid;place-items:center;
+  font-size:.75rem;font-weight:600;color:var(--fg-2)}
+.content{max-width:1060px;margin:0 auto;padding:28px 32px 64px}
+
+/* ---------- cards ---------- */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:0 1px 2px rgb(15 23 42 / .04)}
+.card .hd{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border);
+  font-weight:600;font-size:.9375rem}
+.card .bd{padding:20px}
+h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
+.sub{color:var(--muted-fg);font-size:.875rem}
+
+/* entrance stagger — first paint only */
+.stagger>*{opacity:0;transform:translateY(8px);animation:enter 380ms var(--ease) forwards}
+.stagger>*:nth-child(2){animation-delay:50ms}
+.stagger>*:nth-child(3){animation-delay:100ms}
+.stagger>*:nth-child(4){animation-delay:150ms}
+.stagger>*:nth-child(5){animation-delay:200ms}
+@keyframes enter{to{opacity:1;transform:none}}
+.no-anim .stagger>*{animation:none;opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  .stagger>*{animation:none;opacity:1;transform:none}
+  *{transition-duration:0ms !important}
+}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:9px;font-weight:600;
+  font-size:.875rem;transition:transform 160ms var(--ease),background 150ms ease,border-color 150ms ease}
+.btn:active{transform:scale(.97)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn-pri{background:var(--accent);color:#fff}
+.btn-pri:hover{background:var(--accent-hover)}
+.btn-sec{background:var(--card);border:1px solid var(--border);color:var(--fg-2)}
+.btn-sec:hover{background:var(--muted)}
+.btn-ghost{color:var(--accent);padding:6px 10px}
+.btn-ghost:hover{background:var(--accent-soft)}
+
+/* ---------- home: run card ---------- */
+.run-top{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.run-top .grow{flex:1;min-width:220px}
+.steps{display:flex;gap:0;margin-top:22px;flex-wrap:wrap}
+.step{flex:1;min-width:150px;display:flex;align-items:center;gap:10px;padding:10px 12px 10px 0}
+.step .dot{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;flex:none;
+  font-size:.75rem;font-weight:700;border:2px solid var(--border);color:var(--muted-fg);background:var(--card)}
+.step.done .dot{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.step.now .dot{background:var(--accent);border-color:var(--accent);color:#fff}
+.step .lbl{font-size:.8125rem;font-weight:600;color:var(--muted-fg)}
+.step.done .lbl,.step.now .lbl{color:var(--fg)}
+.step .bar{flex:1;height:2px;background:var(--border);border-radius:2px;min-width:12px}
+.step.done .bar{background:var(--green)}
+
+.todo{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--amber-border);
+  background:var(--amber-soft);border-radius:10px}
+.todo + .todo{margin-top:10px}
+.todo .t{flex:1;font-size:.875rem}
+.todo .t b{font-weight:600}
+.todo .when{font-size:.75rem;color:var(--amber);font-weight:600;white-space:nowrap}
+
+/* stat tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.tile{padding:16px 18px}
+.tile .k{font-size:.8125rem;color:var(--muted-fg);font-weight:500}
+.tile .v{font-size:1.375rem;font-weight:700;letter-spacing:-.02em;margin-top:4px}
+.tile .d{font-size:.75rem;color:var(--muted-fg);margin-top:2px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media (max-width:840px){.grid2{grid-template-columns:1fr}}
+
+.row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}
+.row:last-child{border-bottom:none;padding-bottom:0}
+.row:first-child{padding-top:0}
+.row .t{flex:1;font-size:.875rem}
+.row .sub2{font-size:.75rem;color:var(--muted-fg)}
+.badge{font-size:.71875rem;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.badge.ok{background:var(--green-soft);color:var(--green)}
+.badge.warn{background:var(--amber-soft);color:var(--amber)}
+.badge.mut{background:var(--muted);color:var(--fg-2)}
+.icon-btn{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:var(--fg-2);
+  transition:background 150ms ease,transform 160ms var(--ease)}
+.icon-btn:hover{background:var(--muted)}
+.icon-btn:active{transform:scale(.94)}
+.icon-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- people ---------- */
+.people-top{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.search{display:flex;align-items:center;gap:9px;flex:1;min-width:220px;background:var(--card);
+  border:1px solid var(--border);border-radius:9px;padding:9px 13px;color:var(--muted-fg)}
+.search input{border:none;outline:none;font:inherit;width:100%;color:var(--fg);background:transparent}
+.person{display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--border);
+  width:100%;text-align:left;transition:background 130ms ease}
+.person:hover{background:var(--muted)}
+.person:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.person:last-of-type{border-bottom:none}
+.pava{width:36px;height:36px;border-radius:999px;display:grid;place-items:center;flex:none;
+  font-size:.75rem;font-weight:700;background:var(--accent-soft);color:var(--accent)}
+.person .nm{font-weight:600;font-size:.9375rem}
+.person .rl{font-size:.78125rem;color:var(--muted-fg)}
+.person .grow{flex:1;min-width:0}
+.person .net{text-align:right}
+.person .net .v{font-weight:600}
+.person .net .k{font-size:.71875rem;color:var(--muted-fg)}
+.more-row{padding:13px 18px;font-size:.8125rem;color:var(--muted-fg);text-align:center}
+
+/* dense table view */
+.tblwrap{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:.8125rem;min-width:780px}
+.tbl th{text-align:left;font-size:.6875rem;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--muted-fg);font-weight:600;padding:10px 14px;border-bottom:1px solid var(--border);
+  background:var(--muted);white-space:nowrap}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--border);white-space:nowrap}
+.tbl td b{font-weight:600}
+.tbl tbody tr{cursor:pointer;transition:background 130ms ease}
+.tbl tbody tr:hover{background:var(--muted)}
+.tbl tbody tr:last-child td{border-bottom:none}
+.tbl .r{text-align:right}
+
+/* ---------- employee ---------- */
+.emp-head{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.emp-head .eava{width:52px;height:52px;border-radius:999px;background:var(--accent-soft);color:var(--accent);
+  display:grid;place-items:center;font-weight:700;font-size:1.05rem}
+.emp-head .grow{flex:1;min-width:200px}
+.completeness{display:flex;align-items:center;gap:10px;font-size:.8125rem;color:var(--fg-2)}
+.meter{width:120px;height:6px;border-radius:6px;background:var(--muted);overflow:hidden}
+.meter i{display:block;height:100%;width:92%;background:var(--green);border-radius:6px}
+
+.seg{display:inline-flex;background:var(--muted);border-radius:9px;padding:3px;gap:2px}
+.seg button{padding:6px 14px;border-radius:7px;font-size:.8125rem;font-weight:600;color:var(--muted-fg);
+  transition:color 150ms ease}
+.seg button.on{background:var(--card);color:var(--fg);box-shadow:0 1px 2px rgb(15 23 42 / .08)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.salary{display:flex;align-items:baseline;gap:10px;margin-top:6px}
+.salary .v{font-size:1.75rem;font-weight:700;letter-spacing:-.02em}
+.salary .per{color:var(--muted-fg);font-size:.875rem}
+
+.reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows 220ms var(--ease)}
+.reveal>div{overflow:hidden}
+.reveal.open{grid-template-rows:1fr}
+.chev{transition:transform 200ms var(--ease)}
+.open-chev .chev{transform:rotate(180deg)}
+
+.calc{margin-top:14px;border:1px solid var(--border);border-radius:10px;background:var(--bg);padding:14px 16px}
+.calc .cr{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:.875rem}
+.calc .cr .l{color:var(--fg-2)}
+.calc .cr.tot{border-top:1px solid var(--border);margin-top:6px;padding-top:12px;font-weight:700}
+.calc .note{font-size:.71875rem;color:var(--muted-fg);margin-top:10px}
+
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
+@media (max-width:600px){.kv{grid-template-columns:1fr}}
+.kv .f .k{font-size:.75rem;color:var(--muted-fg);font-weight:500}
+.kv .f .v{font-weight:600;font-size:.9375rem;margin-top:2px}
+.missing{display:flex;align-items:center;gap:10px;margin-top:16px;padding:11px 14px;border-radius:10px;
+  border:1px solid var(--amber-border);background:var(--amber-soft);font-size:.8125rem}
+.missing .t{flex:1}
+
+.leave-bar{height:8px;border-radius:8px;background:var(--muted);overflow:hidden;margin-top:10px}
+.leave-bar i{display:block;height:100%;width:48%;background:var(--accent);border-radius:8px}
+
+/* guided submission steps */
+.gstep{display:flex;align-items:flex-start;gap:11px;padding:7px 0;font-size:.875rem}
+.gstep .n{width:22px;height:22px;border-radius:999px;background:var(--accent-soft);color:var(--accent);
+  font-size:.71875rem;font-weight:700;display:grid;place-items:center;flex:none;margin-top:1px}
+.gstep .sub2{display:block}
+
+.crumb{display:flex;align-items:center;gap:6px;font-size:.8125rem;color:var(--muted-fg);margin-bottom:16px}
+.crumb button{color:var(--accent);font-weight:600}
+.crumb button:hover{text-decoration:underline}
+
+.view{display:none}
+.view.on{display:block}
+.mt{margin-top:14px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="ic-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+    <symbol id="ic-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="ic-money" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></symbol>
+    <symbol id="ic-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></symbol>
+    <symbol id="ic-set" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></symbol>
+    <symbol id="ic-dl" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="ic-chevd" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></symbol>
+    <symbol id="ic-chevr" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
+    <symbol id="ic-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+    <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+    <symbol id="ic-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+    <symbol id="ic-arrow" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+    <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <!-- ======== SIDEBAR: 5 items, no tree ======== -->
+  <nav class="side" aria-label="Κύρια πλοήγηση">
+    <div class="logo"><span class="mark">A</span> abax <span style="font-weight:500;color:var(--muted-fg)">· Μισθοδοσία</span></div>
+    <button class="nav-btn on" data-nav="home" onclick="go('home')"><svg class="i"><use href="#ic-home"/></svg> Επισκόπηση</button>
+    <button class="nav-btn" data-nav="people" onclick="go('people')"><svg class="i"><use href="#ic-users"/></svg> Προσωπικό</button>
+    <button class="nav-btn" onclick="go('home')"><svg class="i"><use href="#ic-money"/></svg> Μισθοδοσίες</button>
+    <button class="nav-btn" data-nav="oblig" onclick="go('oblig')"><svg class="i"><use href="#ic-file"/></svg> Υποχρεώσεις</button>
+    <button class="nav-btn" onclick="go('home')"><svg class="i"><use href="#ic-set"/></svg> Ρυθμίσεις</button>
+    <div class="foot">Concept mockup<br>Ενδεικτικά δεδομένα</div>
+  </nav>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="orgwrap">
+        <button class="org-btn" id="orgBtn" onclick="toggleOrgMenu(event)" aria-haspopup="menu" aria-expanded="false">
+          <span class="org-mark">D</span>
+          <span id="orgName">Demo ΙΚΕ</span>
+          <svg class="i" style="width:14px;height:14px;color:var(--muted-fg)"><use href="#ic-chevd"/></svg>
+        </button>
+        <div class="menu" id="orgMenu" role="menu" aria-label="Επιλογή οργανισμού">
+          <button role="menuitem" onclick="pickOrg(this,'Demo ΙΚΕ')"><span class="org-mark">D</span> Demo ΙΚΕ <svg class="i ck" style="width:14px;height:14px;color:var(--accent);margin-left:auto"><use href="#ic-check"/></svg></button>
+          <button role="menuitem" onclick="pickOrg(this,'Demo Retail ΟΕ')"><span class="org-mark" style="background:var(--green-soft);color:var(--green)">R</span> Demo Retail ΟΕ <svg class="i ck" style="width:14px;height:14px;color:var(--accent);margin-left:auto;display:none"><use href="#ic-check"/></svg></button>
+          <button role="menuitem" onclick="pickOrg(this,'Demo Studio ΕΕ')"><span class="org-mark" style="background:var(--amber-soft);color:var(--amber)">S</span> Demo Studio ΕΕ <svg class="i ck" style="width:14px;height:14px;color:var(--accent);margin-left:auto;display:none"><use href="#ic-check"/></svg></button>
+          <div class="sep"></div>
+          <button role="menuitem" style="color:var(--accent)"><svg class="i" style="width:15px;height:15px"><use href="#ic-plus"/></svg> Νέος οργανισμός</button>
+        </div>
+      </div>
+      <span class="pill period"><svg class="i" style="width:14px;height:14px"><use href="#ic-cal"/></svg> Αύγουστος 2026</span>
+      <span class="spacer"></span>
+      <span class="avatar">ΧΡ</span>
+    </header>
+
+    <!-- ================= HOME ================= -->
+    <main class="view on" id="view-home">
+      <div class="content stagger">
+
+        <!-- run card -->
+        <section class="card" style="padding:24px" aria-label="Μισθοδοσία Αυγούστου">
+          <div class="run-top">
+            <div class="grow">
+              <h1>Μισθοδοσία Αυγούστου</h1>
+              <p class="sub mt" style="margin-top:4px">Σε εξέλιξη — 2 εκκρεμότητες πριν τον έλεγχο</p>
+            </div>
+            <button class="btn btn-pri">Συνέχεια <svg class="i" style="width:16px;height:16px"><use href="#ic-arrow"/></svg></button>
+          </div>
+
+          <div class="steps">
+            <div class="step done">
+              <span class="dot"><svg class="i" style="width:13px;height:13px"><use href="#ic-check"/></svg></span>
+              <span class="lbl">Επιβεβαίωση ομάδας</span><span class="bar"></span>
+            </div>
+            <div class="step now">
+              <span class="dot">2</span>
+              <span class="lbl">Αλλαγές μήνα</span><span class="bar"></span>
+            </div>
+            <div class="step">
+              <span class="dot">3</span>
+              <span class="lbl">Έγκριση &amp; αρχεία</span>
+            </div>
+          </div>
+
+          <div class="mt" style="margin-top:20px">
+            <div class="todo">
+              <svg class="i" style="color:var(--amber)"><use href="#ic-clock"/></svg>
+              <span class="t"><b>Ώρες Ιουλίου:</b> 3 εργαζόμενοι με υπερωρίες προς επιβεβαίωση</span>
+              <button class="btn btn-sec" style="padding:6px 12px">Έλεγχος</button>
+            </div>
+            <div class="todo">
+              <svg class="i" style="color:var(--amber)"><use href="#ic-alert"/></svg>
+              <span class="t"><b>Νέα πρόσληψη:</b> δήλωση στην ΕΡΓΑΝΗ — τα στοιχεία είναι έτοιμα</span>
+              <span class="when">έως 06/08</span>
+              <button class="btn btn-sec" style="padding:6px 12px">Προβολή</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- stat tiles -->
+        <section class="tiles mt" aria-label="Σύνοψη μήνα">
+          <div class="card tile"><div class="k">Συνολικό κόστος</div><div class="v num">118.400 €</div><div class="d">+1,2% από Ιούλιο</div></div>
+          <div class="card tile"><div class="k">Καθαρά πληρωτέα</div><div class="v num">72.900 €</div><div class="d">52 εργαζόμενοι</div></div>
+          <div class="card tile"><div class="k">Εισφορές &amp; φόροι</div><div class="v num">45.500 €</div><div class="d">ΕΦΚΑ + ΦΜΥ</div></div>
+          <div class="card tile"><div class="k">Επόμενη προθεσμία</div><div class="v">31/08</div><div class="d">ΑΠΔ Ιουλίου</div></div>
+        </section>
+
+        <div class="grid2">
+          <!-- deadlines -->
+          <section class="card">
+            <div class="hd"><svg class="i"><use href="#ic-cal"/></svg> Προθεσμίες</div>
+            <div class="bd">
+              <div class="row">
+                <span class="t">ΑΠΔ Ιουλίου <span class="sub2">— e-ΕΦΚΑ</span></span>
+                <span class="badge mut">σε 26 μέρες</span>
+              </div>
+              <div class="row">
+                <span class="t">ΦΜΥ Ιουλίου <span class="sub2">— myAADE</span></span>
+                <span class="badge mut">σε 26 μέρες</span>
+              </div>
+              <div class="row">
+                <span class="t">Δήλωση πρόσληψης <span class="sub2">— ΕΡΓΑΝΗ</span></span>
+                <span class="badge warn">αύριο</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- outputs of last run -->
+          <section class="card">
+            <div class="hd"><svg class="i"><use href="#ic-check" style="color:var(--green)"/></svg> Ιούλιος — ολοκληρώθηκε</div>
+            <div class="bd">
+              <div class="row">
+                <span class="t">Αρχείο ΑΠΔ <span class="sub2">.xml — έτοιμο για e-ΕΦΚΑ</span></span>
+                <button class="icon-btn" aria-label="Λήψη αρχείου ΑΠΔ"><svg class="i"><use href="#ic-dl"/></svg></button>
+              </div>
+              <div class="row">
+                <span class="t">Αποδείξεις πληρωμής <span class="sub2">52 PDF — εστάλησαν</span></span>
+                <span class="badge ok">εστάλησαν ✓</span>
+              </div>
+              <div class="row">
+                <span class="t">Αρχείο τράπεζας <span class="sub2">.txt — μαζική πληρωμή</span></span>
+                <button class="icon-btn" aria-label="Λήψη αρχείου τράπεζας"><svg class="i"><use href="#ic-dl"/></svg></button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ================= PEOPLE ================= -->
+    <main class="view" id="view-people">
+      <div class="content">
+        <div class="people-top">
+          <h1 style="margin-right:8px">Προσωπικό</h1>
+          <span class="pill">52 ενεργοί</span>
+          <span class="spacer" style="flex:1"></span>
+          <div class="seg" role="tablist" aria-label="Προβολή προσωπικού">
+            <button class="on" id="segList" onclick="setTeamView('list')" role="tab" aria-selected="true">Λίστα</button>
+            <button id="segTable" onclick="setTeamView('table')" role="tab" aria-selected="false">Πίνακας</button>
+          </div>
+          <button class="btn btn-pri"><svg class="i" style="width:16px;height:16px"><use href="#ic-plus"/></svg> Πρόσληψη</button>
+        </div>
+        <div class="search" style="margin-bottom:16px">
+          <svg class="i"><use href="#ic-search"/></svg>
+          <input type="search" placeholder="Αναζήτηση με όνομα, τμήμα, ρόλο…" aria-label="Αναζήτηση εργαζομένων">
+        </div>
+
+        <section class="card" id="teamList" aria-label="Λίστα εργαζομένων">
+          <button class="person" onclick="go('employee')">
+            <span class="pava">ΜΠ</span>
+            <span class="grow"><span class="nm">Μαρία Παπαδοπούλου</span><br><span class="rl">Front-end Developer · CS</span></span>
+            <span class="net"><span class="v num">1.463,28 €</span><br><span class="k">καθαρά / μήνα</span></span>
+            <svg class="i" style="color:var(--muted-fg)"><use href="#ic-chevr"/></svg>
+          </button>
+          <button class="person" onclick="go('employee')">
+            <span class="pava" style="background:var(--green-soft);color:var(--green)">ΓΑ</span>
+            <span class="grow"><span class="nm">Γιώργος Αντωνίου</span><br><span class="rl">Account Manager · SMP</span></span>
+            <span class="net"><span class="v num">1.286,10 €</span><br><span class="k">καθαρά / μήνα</span></span>
+            <svg class="i" style="color:var(--muted-fg)"><use href="#ic-chevr"/></svg>
+          </button>
+          <button class="person" onclick="go('employee')">
+            <span class="pava" style="background:var(--amber-soft);color:var(--amber)">ΕΔ</span>
+            <span class="grow"><span class="nm">Ελένη Δήμου</span><br><span class="rl">Operations · Core</span>
+              <span class="badge warn" style="margin-left:8px">λείπει IBAN</span></span>
+            <span class="net"><span class="v num">1.152,74 €</span><br><span class="k">καθαρά / μήνα</span></span>
+            <svg class="i" style="color:var(--muted-fg)"><use href="#ic-chevr"/></svg>
+          </button>
+          <button class="person" onclick="go('employee')">
+            <span class="pava">ΝΚ</span>
+            <span class="grow"><span class="nm">Νίκος Καραγιάννης</span><br><span class="rl">Designer · SMP</span>
+              <span class="badge mut" style="margin-left:8px">μερική απασχόληση</span></span>
+            <span class="net"><span class="v num">764,90 €</span><br><span class="k">καθαρά / μήνα</span></span>
+            <svg class="i" style="color:var(--muted-fg)"><use href="#ic-chevr"/></svg>
+          </button>
+          <div class="more-row">Εμφανίζονται 4 από 52 εργαζόμενους (demo)</div>
+        </section>
+
+        <!-- dense table view for accountants -->
+        <section class="card" id="teamTable" style="display:none" aria-label="Πίνακας εργαζομένων">
+          <div class="tblwrap">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th aria-sort="ascending">Ονοματεπώνυμο ↑</th>
+                  <th>Ρόλος</th>
+                  <th>Τμήμα</th>
+                  <th>Απασχόληση</th>
+                  <th class="r">Μικτά</th>
+                  <th class="r">Καθαρά</th>
+                  <th>Κατάσταση</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="go('employee')"><td><b>Αντωνίου Γιώργος</b></td><td>Account Manager</td><td>SMP</td><td>Πλήρης</td><td class="r num">1.620,00</td><td class="r num">1.286,10</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Βασιλείου Κατερίνα</b></td><td>Team Lead</td><td>Core</td><td>Πλήρης</td><td class="r num">2.100,00</td><td class="r num">1.648,90</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Δήμου Ελένη</b></td><td>Operations</td><td>Core</td><td>Πλήρης</td><td class="r num">1.450,00</td><td class="r num">1.152,74</td><td><span class="badge warn">λείπει IBAN</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Καραγιάννης Νίκος</b></td><td>Designer</td><td>SMP</td><td>Μερική · 5ω</td><td class="r num">950,00</td><td class="r num">764,90</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Λάμπρου Δημήτρης</b></td><td>Support</td><td>CS</td><td>Πλήρης</td><td class="r num">1.380,00</td><td class="r num">1.098,41</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Μαυρίδης Θοδωρής</b></td><td>Support</td><td>CS</td><td>Πλήρης</td><td class="r num">1.300,00</td><td class="r num">1.036,60</td><td><span class="badge mut">αποχώρησε 31/07</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Μιχαηλίδη Άννα</b></td><td>Back-end Developer</td><td>CS</td><td>Πλήρης</td><td class="r num">1.950,00</td><td class="r num">1.537,60</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Νικολάου Σοφία</b></td><td>Content Lead</td><td>SMP</td><td>Πλήρης</td><td class="r num">1.700,00</td><td class="r num">1.346,55</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Οικονόμου Πέτρος</b></td><td>QA</td><td>CS</td><td>Πλήρης</td><td class="r num">1.500,00</td><td class="r num">1.191,50</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Παπαδοπούλου Μαρία</b></td><td>Front-end Developer</td><td>CS</td><td>Πλήρης</td><td class="r num">1.850,00</td><td class="r num">1.463,28</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Παππάς Χρήστος</b></td><td>Sales</td><td>SMP</td><td>Πλήρης</td><td class="r num">1.450,00</td><td class="r num">1.152,74</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Σταθοπούλου Ειρήνη</b></td><td>Office</td><td>Core</td><td>Μερική · 4ω</td><td class="r num">820,00</td><td class="r num">663,25</td><td><span class="badge ok">Ενεργή</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="more-row">Εμφανίζονται 12 από 52 (demo) — ταξινόμηση, φίλτρα, στήλες κατ' επιλογή και μαζική επεξεργασία στο πλήρες προϊόν</div>
+        </section>
+      </div>
+    </main>
+
+    <!-- ================= ΥΠΟΧΡΕΩΣΕΙΣ ================= -->
+    <main class="view" id="view-oblig">
+      <div class="content">
+        <div class="people-top">
+          <h1>Υποχρεώσεις</h1>
+          <span class="pill warn" style="background:var(--amber-soft);color:var(--amber)">3 εκκρεμείς</span>
+        </div>
+
+        <section class="card" aria-label="Εκκρεμείς υποχρεώσεις">
+          <div class="hd"><svg class="i" style="color:var(--amber)"><use href="#ic-clock"/></svg> Εκκρεμείς</div>
+          <div class="bd">
+
+            <div class="row">
+              <span class="t"><b>Δήλωση πρόσληψης</b> <span class="sub2">— ΕΡΓΑΝΗ ΙΙ · χρειάζεται και αποδοχή από τον εργαζόμενο μέσω myErgani</span></span>
+              <span class="badge warn">έως αύριο 06/08</span>
+              <button class="btn btn-sec" style="padding:6px 12px">Οδηγίες</button>
+            </div>
+
+            <div class="row" style="display:block">
+              <div style="display:flex;align-items:center;gap:12px">
+                <span class="t"><b>ΑΠΔ Ιουλίου</b> <span class="sub2">— e-ΕΦΚΑ · το αρχείο είναι έτοιμο</span></span>
+                <span class="badge mut">έως 10/09 (παράταση)</span>
+                <button class="icon-btn" aria-label="Λήψη αρχείου ΑΠΔ"><svg class="i"><use href="#ic-dl"/></svg></button>
+                <button class="btn btn-ghost" id="apdBtn" onclick="toggleApd()" aria-expanded="false">
+                  Βήματα <svg class="i chev" style="width:15px;height:15px"><use href="#ic-chevd"/></svg>
+                </button>
+              </div>
+              <div class="reveal" id="apdBox">
+                <div style="padding-top:12px">
+                  <div class="gstep"><span class="n">1</span><span>Κατέβασε το αρχείο ΑΠΔ <span class="sub2">Έτοιμο από την εγκεκριμένη μισθοδοσία Ιουλίου</span></span></div>
+                  <div class="gstep"><span class="n">2</span><span>Σύνδεση στο e-ΕΦΚΑ <span class="sub2">Με τους κωδικούς εργοδότη της εταιρείας</span></span></div>
+                  <div class="gstep"><span class="n">3</span><span>Μεταφόρτωση στο «Υποβολή ΑΠΔ» <span class="sub2">Σε δοκιμαστική υποβολή πρώτα — σου δείχνουμε πού ακριβώς</span></span></div>
+                  <div class="gstep"><span class="n">4</span><span>Σήμανε ως υποβλημένη <span class="sub2">Κρατάμε το αποδεικτικό στο ιστορικό</span></span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <span class="t"><b>ΦΜΥ Ιουλίου</b> <span class="sub2">— myAADE · τα ποσά είναι υπολογισμένα</span></span>
+              <span class="badge mut">έως 31/08</span>
+              <button class="btn btn-sec" style="padding:6px 12px">Ποσά</button>
+            </div>
+
+          </div>
+        </section>
+
+        <div class="grid2">
+          <section class="card" aria-label="Επόμενες υποχρεώσεις">
+            <div class="hd"><svg class="i"><use href="#ic-cal"/></svg> Έρχονται</div>
+            <div class="bd">
+              <div class="row">
+                <span class="t">ΑΠΔ Αυγούστου <span class="sub2">— θα ετοιμαστεί αυτόματα με την έγκριση του μήνα</span></span>
+                <span class="badge mut">Σεπτέμβριος</span>
+              </div>
+              <div class="row">
+                <span class="t">Ψηφιακή κάρτα εργασίας <span class="sub2">— ο κλάδος σου ίσως εντάσσεται στην επέκταση Ιουν–Νοε 2026 · θα ειδοποιηθείς</span></span>
+                <span class="badge mut">παρακολουθούμε</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" aria-label="Ολοκληρωμένες υποχρεώσεις">
+            <div class="hd"><svg class="i" style="color:var(--green)"><use href="#ic-check"/></svg> Ολοκληρώθηκαν</div>
+            <div class="bd">
+              <div class="row">
+                <span class="t">ΑΠΔ Ιουνίου <span class="sub2">— υποβλήθηκε 28/07</span></span>
+                <span class="badge ok">✓</span>
+              </div>
+              <div class="row">
+                <span class="t">ΦΜΥ Ιουνίου <span class="sub2">— δηλώθηκε 28/07</span></span>
+                <span class="badge ok">✓</span>
+              </div>
+              <div class="row">
+                <span class="t">Αποδείξεις Ιουλίου <span class="sub2">— εστάλησαν σε 52 εργαζόμενους</span></span>
+                <span class="badge ok">✓</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ================= EMPLOYEE ================= -->
+    <main class="view" id="view-employee">
+      <div class="content">
+        <div class="crumb">
+          <button onclick="go('people')">Προσωπικό</button>
+          <svg class="i" style="width:13px;height:13px"><use href="#ic-chevr"/></svg>
+          <span>Μαρία Παπαδοπούλου</span>
+        </div>
+
+        <div class="emp-head">
+          <span class="eava">ΜΠ</span>
+          <div class="grow">
+            <h1>Μαρία Παπαδοπούλου</h1>
+            <p class="sub">Front-end Developer · Τμήμα CS · <span class="badge ok">Ενεργή</span></p>
+          </div>
+          <div class="completeness">
+            <span>Πληρότητα στοιχείων</span>
+            <span class="meter"><i></i></span>
+            <b>92%</b>
+          </div>
+        </div>
+
+        <div class="grid2" style="margin-top:0">
+          <!-- salary card with gross/net toggle + breakdown -->
+          <section class="card">
+            <div class="hd">
+              Αμοιβή
+              <span class="spacer" style="flex:1"></span>
+              <div class="seg" role="tablist" aria-label="Μικτά ή καθαρά">
+                <button class="on" id="segG" onclick="setPay('g')" role="tab" aria-selected="true">Μικτά</button>
+                <button id="segN" onclick="setPay('n')" role="tab" aria-selected="false">Καθαρά</button>
+              </div>
+            </div>
+            <div class="bd">
+              <div class="salary">
+                <span class="v num" id="payV">1.850,00 €</span>
+                <span class="per">/ μήνα · πλήρης απασχόληση</span>
+              </div>
+              <button class="btn btn-ghost mt" id="calcBtn" onclick="toggleCalc()" aria-expanded="false">
+                Πώς υπολογίζεται; <svg class="i chev" style="width:15px;height:15px"><use href="#ic-chevd"/></svg>
+              </button>
+              <div class="reveal" id="calcBox">
+                <div>
+                  <div class="calc num">
+                    <div class="cr"><span class="l">Μικτές αποδοχές</span><span>1.850,00 €</span></div>
+                    <div class="cr"><span class="l">− Εισφορές ΕΦΚΑ εργαζομένου (13,37%)</span><span>−247,35 €</span></div>
+                    <div class="cr"><span class="l">= Φορολογητέο εισόδημα</span><span>1.602,65 €</span></div>
+                    <div class="cr"><span class="l">− Παρακράτηση φόρου (ΦΜΥ)</span><span>−139,37 €</span></div>
+                    <div class="cr tot"><span>Καθαρά πληρωτέα</span><span>1.463,28 €</span></div>
+                    <div class="cr" style="color:var(--muted-fg)"><span class="l">Κόστος εργοδότη (+ εισφορές 22,29%)</span><span>2.262,37 €</span></div>
+                  </div>
+                  <p class="calc note" style="border:none;background:none;padding:6px 2px 0">Ενδεικτικοί συντελεστές για το concept — το προϊόν θα χρησιμοποιεί πάντα τους ισχύοντες.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- contract -->
+          <section class="card">
+            <div class="hd">Σύμβαση</div>
+            <div class="bd">
+              <div class="kv">
+                <div class="f"><div class="k">Είδος</div><div class="v">Πλήρης απασχόληση</div></div>
+                <div class="f"><div class="k">Διάρκεια</div><div class="v">Αορίστου χρόνου</div></div>
+                <div class="f"><div class="k">Έναρξη</div><div class="v num">03/02/2025</div></div>
+                <div class="f"><div class="k">Ωράριο</div><div class="v">Δευ–Παρ · 09:00–17:00</div></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- leave -->
+          <section class="card">
+            <div class="hd">Άδεια</div>
+            <div class="bd">
+              <div style="display:flex;justify-content:space-between;font-size:.875rem">
+                <span class="sub">Υπόλοιπο 2026</span>
+                <b class="num">12 από 25 ημέρες</b>
+              </div>
+              <div class="leave-bar"><i></i></div>
+              <div class="row" style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;border-bottom:none">
+                <span class="t">Καλοκαιρινή άδεια <span class="sub2">10–21/08 · εγκρίθηκε</span></span>
+                <span class="badge ok">σε εξέλιξη</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- details / completeness -->
+          <section class="card">
+            <div class="hd">Στοιχεία</div>
+            <div class="bd">
+              <div class="kv">
+                <div class="f"><div class="k">ΑΦΜ</div><div class="v num">1•••••••4</div></div>
+                <div class="f"><div class="k">ΑΜΚΑ</div><div class="v num">02•••••••••8</div></div>
+                <div class="f"><div class="k">IBAN</div><div class="v num">GR•• •••• 4421</div></div>
+                <div class="f"><div class="k">Email αποδείξεων</div><div class="v">m.pap@…</div></div>
+              </div>
+              <div class="missing">
+                <svg class="i" style="color:var(--amber)"><use href="#ic-alert"/></svg>
+                <span class="t">Λείπει ο <b>Αρ. Μητρώου ΕΦΚΑ</b> — θα χρειαστεί για την ΑΠΔ Αυγούστου</span>
+                <button class="btn btn-sec" style="padding:6px 12px">Συμπλήρωση</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- payslips -->
+        <section class="card mt">
+          <div class="hd">Αποδείξεις πληρωμής</div>
+          <div class="bd">
+            <div class="row">
+              <span class="t">Ιούλιος 2026 <span class="sub2 num">· καθαρά 1.463,28 €</span></span>
+              <button class="icon-btn" aria-label="Λήψη απόδειξης Ιουλίου"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row">
+              <span class="t">Ιούνιος 2026 <span class="sub2 num">· καθαρά 1.463,28 €</span></span>
+              <button class="icon-btn" aria-label="Λήψη απόδειξης Ιουνίου"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+            <div class="row">
+              <span class="t">Μάιος 2026 <span class="sub2 num">· καθαρά 1.421,05 € <span class="badge mut" style="margin-left:6px">αναδρομικά</span></span></span>
+              <button class="icon-btn" aria-label="Λήψη απόδειξης Μαΐου"><svg class="i"><use href="#ic-dl"/></svg></button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+// view switching — instant, no animation (used constantly; frequency rule)
+function go(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById('view-'+id).classList.add('on');
+  document.querySelectorAll('[data-nav]').forEach(b=>{
+    b.classList.toggle('on', b.dataset.nav===id || (id==='employee' && b.dataset.nav==='people'));
+  });
+  document.body.classList.add('no-anim'); // entrance stagger is first-paint only
+  window.scrollTo(0,0);
+}
+
+// team view toggle — instant switch, no animation (frequency rule)
+function setTeamView(m){
+  document.getElementById('teamList').style.display = m==='list' ? '' : 'none';
+  document.getElementById('teamTable').style.display = m==='table' ? '' : 'none';
+  document.getElementById('segList').classList.toggle('on',m==='list');
+  document.getElementById('segTable').classList.toggle('on',m==='table');
+  document.getElementById('segList').setAttribute('aria-selected',m==='list');
+  document.getElementById('segTable').setAttribute('aria-selected',m==='table');
+}
+
+// gross/net toggle
+const pay={g:'1.850,00 €',n:'1.463,28 €'};
+function setPay(m){
+  document.getElementById('payV').textContent=pay[m];
+  document.getElementById('segG').classList.toggle('on',m==='g');
+  document.getElementById('segN').classList.toggle('on',m==='n');
+  document.getElementById('segG').setAttribute('aria-selected',m==='g');
+  document.getElementById('segN').setAttribute('aria-selected',m==='n');
+}
+
+// org switcher — popover scales from its trigger (transform-origin: top left)
+function toggleOrgMenu(e){
+  e.stopPropagation();
+  const m=document.getElementById('orgMenu');
+  const open=m.classList.toggle('open');
+  document.getElementById('orgBtn').setAttribute('aria-expanded',open);
+}
+function pickOrg(el,name){
+  document.getElementById('orgName').textContent=name;
+  document.getElementById('orgBtn').querySelector('.org-mark').textContent=el.querySelector('.org-mark').textContent;
+  document.querySelectorAll('#orgMenu .ck').forEach(c=>c.style.display='none');
+  const ck=el.querySelector('.ck'); if(ck) ck.style.display='';
+  document.getElementById('orgMenu').classList.remove('open');
+  document.getElementById('orgBtn').setAttribute('aria-expanded','false');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.orgwrap')){
+    document.getElementById('orgMenu').classList.remove('open');
+    document.getElementById('orgBtn').setAttribute('aria-expanded','false');
+  }
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.getElementById('orgMenu').classList.remove('open');
+    document.getElementById('orgBtn').setAttribute('aria-expanded','false');
+  }
+});
+
+// guided ΑΠΔ steps
+function toggleApd(){
+  const box=document.getElementById('apdBox'), btn=document.getElementById('apdBtn');
+  const open=box.classList.toggle('open');
+  btn.classList.toggle('open-chev',open);
+  btn.setAttribute('aria-expanded',open);
+}
+
+// calculation breakdown
+function toggleCalc(){
+  const box=document.getElementById('calcBox'), btn=document.getElementById('calcBtn');
+  const open=box.classList.toggle('open');
+  btn.classList.toggle('open-chev',open);
+  btn.setAttribute('aria-expanded',open);
+}
+</script>
+</body>
+</html>
