@@ -244,7 +244,7 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
   background:var(--fg);color:#fff;font-size:.75rem;font-weight:500;line-height:1.45;
   padding:8px 11px;border-radius:8px;text-align:left;z-index:40;
   transition:opacity 125ms var(--ease),transform 125ms var(--ease)}
-.info:hover .tip,.info:focus-visible .tip{opacity:1;transform:translateX(-50%) scale(1);transition-delay:300ms}
+.info:hover .tip,.info:focus .tip,.info:focus-visible .tip{opacity:1;transform:translateX(-50%) scale(1);transition-delay:300ms}
 .tip-down{bottom:auto;top:calc(100% + 8px);transform-origin:top center}
 
 /* toggle switch */
@@ -271,6 +271,41 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
 .view{display:none}
 .view.on{display:block}
 .mt{margin-top:14px}
+
+/* ---------- mobile ---------- */
+@media (max-width:768px){
+  .app{flex-direction:column}
+  /* sidebar -> bottom nav (5 items, icon + label) */
+  .side{position:fixed;bottom:0;left:0;right:0;top:auto;width:100%;height:auto;z-index:30;
+    flex-direction:row;justify-content:space-around;gap:0;
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+    border-right:none;border-top:1px solid var(--border)}
+  .logo,.side .foot,.hide-m{display:none}
+  .nav-btn{flex:1;flex-direction:column;gap:3px;padding:7px 4px;font-size:.65625rem;
+    border-radius:10px;min-height:48px;justify-content:center}
+  .nav-btn svg.i{width:20px;height:20px}
+  .main{min-width:0}
+  .topbar{padding:10px 14px;gap:10px}
+  #orgName{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .content{padding:20px 16px calc(88px + env(safe-area-inset-bottom));max-width:none}
+  h1{font-size:1.2rem}
+  /* run wizard: stack steps, full-width CTA */
+  .steps{flex-direction:column;gap:2px;margin-top:16px}
+  .step{min-width:100%;padding:7px 0}
+  .step .bar{display:none}
+  .run-top .btn{width:100%;justify-content:center}
+  /* touch targets & inputs */
+  .icon-btn{width:42px;height:42px}
+  .search input,input[type=search]{font-size:16px}
+  .btn{padding:10px 16px}
+  /* tooltips: anchor left, cap width, no hover-only */
+  .tip{left:0;transform:translateX(0) scale(.97);max-width:min(240px,84vw);width:max-content}
+  .info:hover .tip,.info:focus .tip,.info:focus-visible .tip{transform:translateX(0) scale(1)}
+  /* tables & week grid already scroll/fit; tighten paddings */
+  .card .bd{padding:16px}
+  .card .hd{padding:14px 16px}
+  .tile .v{font-size:1.2rem}
+}
 </style>
 </head>
 <body>
@@ -305,7 +340,7 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
     </div>
     <button class="nav-btn on" data-nav="home" onclick="go('home')"><svg class="i"><use href="#ic-home"/></svg> Επισκόπηση</button>
     <button class="nav-btn" data-nav="people" onclick="go('people')"><svg class="i"><use href="#ic-users"/></svg> Προσωπικό</button>
-    <button class="nav-btn" onclick="go('home')"><svg class="i"><use href="#ic-money"/></svg> Μισθοδοσίες</button>
+    <button class="nav-btn hide-m" onclick="go('home')"><svg class="i"><use href="#ic-money"/></svg> Μισθοδοσίες</button>
     <button class="nav-btn" data-nav="oblig" onclick="go('oblig')"><svg class="i"><use href="#ic-file"/></svg> Υποχρεώσεις</button>
     <button class="nav-btn" data-nav="docs" onclick="go('docs')"><svg class="i"><use href="#ic-book"/></svg> Έγγραφα</button>
     <button class="nav-btn" data-nav="settings" onclick="go('settings')"><svg class="i"><use href="#ic-set"/></svg> Ρυθμίσεις</button>
