@@ -224,6 +224,13 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
 .leave-bar{height:8px;border-radius:8px;background:var(--muted);overflow:hidden;margin-top:10px}
 .leave-bar i{display:block;height:100%;width:48%;background:var(--accent);border-radius:8px}
 
+/* weekly schedule grid */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
+.day{background:var(--muted);border-radius:8px;padding:7px 2px;text-align:center;font-size:.65625rem;
+  color:var(--fg-2);line-height:1.35}
+.day b{display:block;font-size:.71875rem;color:var(--fg)}
+.day.off{opacity:.45}
+
 /* info tooltip — delayed on hover, instant scale-from-origin entrance */
 .info{position:relative;display:inline-grid;place-items:center;width:22px;height:22px;
   border-radius:999px;color:var(--muted-fg);cursor:default;flex:none}
@@ -470,27 +477,26 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
               <thead>
                 <tr>
                   <th aria-sort="ascending">Ονοματεπώνυμο ↑</th>
-                  <th>Ρόλος</th>
-                  <th>Τμήμα</th>
-                  <th>Απασχόληση</th>
+                  <th>Σύμβαση</th>
+                  <th>Ωράριο</th>
                   <th class="r">Μικτά</th>
                   <th class="r">Καθαρά</th>
                   <th>Κατάσταση</th>
                 </tr>
               </thead>
               <tbody>
-                <tr onclick="go('employee')"><td><b>Αντωνίου Γιώργος</b></td><td>Account Manager</td><td>Πωλήσεις</td><td>Πλήρης</td><td class="r num">1.620,00</td><td class="r num">1.286,10</td><td><span class="badge ok">Ενεργός</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Βασιλείου Κατερίνα</b></td><td>Team Lead</td><td>Διοίκηση</td><td>Πλήρης</td><td class="r num">2.100,00</td><td class="r num">1.648,90</td><td><span class="badge ok">Ενεργή</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Δήμου Ελένη</b></td><td>Operations</td><td>Διοίκηση</td><td>Πλήρης</td><td class="r num">1.450,00</td><td class="r num">1.152,74</td><td><span class="badge warn">λείπει IBAN</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Καραγιάννης Νίκος</b></td><td>Designer</td><td>Πωλήσεις</td><td>Μερική · 5ω</td><td class="r num">950,00</td><td class="r num">764,90</td><td><span class="badge ok">Ενεργός</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Λάμπρου Δημήτρης</b></td><td>Support</td><td>Εξυπηρέτηση</td><td>Πλήρης</td><td class="r num">1.380,00</td><td class="r num">1.098,41</td><td><span class="badge ok">Ενεργός</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Μαυρίδης Θοδωρής</b></td><td>Support</td><td>Εξυπηρέτηση</td><td>Πλήρης</td><td class="r num">1.300,00</td><td class="r num">1.036,60</td><td><span class="badge mut">αποχώρησε 31/07</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Μιχαηλίδη Άννα</b></td><td>Back-end Developer</td><td>Εξυπηρέτηση</td><td>Πλήρης</td><td class="r num">1.950,00</td><td class="r num">1.537,60</td><td><span class="badge ok">Ενεργή</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Νικολάου Σοφία</b></td><td>Content Lead</td><td>Πωλήσεις</td><td>Πλήρης</td><td class="r num">1.700,00</td><td class="r num">1.346,55</td><td><span class="badge ok">Ενεργή</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Οικονόμου Πέτρος</b></td><td>QA</td><td>Εξυπηρέτηση</td><td>Πλήρης</td><td class="r num">1.500,00</td><td class="r num">1.191,50</td><td><span class="badge ok">Ενεργός</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Παπαδοπούλου Μαρία</b></td><td>Front-end Developer</td><td>Εξυπηρέτηση</td><td>Πλήρης</td><td class="r num">1.850,00</td><td class="r num">1.463,28</td><td><span class="badge ok">Ενεργή</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Παππάς Χρήστος</b></td><td>Sales</td><td>Πωλήσεις</td><td>Πλήρης</td><td class="r num">1.450,00</td><td class="r num">1.152,74</td><td><span class="badge ok">Ενεργός</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Σταθοπούλου Ειρήνη</b></td><td>Office</td><td>Διοίκηση</td><td>Μερική · 4ω</td><td class="r num">820,00</td><td class="r num">663,25</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Αντωνίου Γιώργος</b></td><td>Αορίστου</td><td>Δευ–Παρ 09:00–17:00</td><td class="r num">1.620,00</td><td class="r num">1.286,10</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Βασιλείου Κατερίνα</b></td><td>Αορίστου</td><td>Δευ–Παρ 09:00–17:00</td><td class="r num">2.100,00</td><td class="r num">1.648,90</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Δήμου Ελένη</b></td><td>Αορίστου</td><td>Δευ–Παρ 08:00–16:00</td><td class="r num">1.450,00</td><td class="r num">1.152,74</td><td><span class="badge warn">λείπει IBAN</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Καραγιάννης Νίκος</b></td><td>Ορισμένου <span class="sub2">έως 31/12/26</span></td><td>Μερική · Δευ–Παρ 09:00–14:00</td><td class="r num">950,00</td><td class="r num">764,90</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Λάμπρου Δημήτρης</b></td><td>Αορίστου</td><td>Βάρδιες <span class="sub2">εβδ. πρόγραμμα</span></td><td class="r num">1.380,00</td><td class="r num">1.098,41</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Μαυρίδης Θοδωρής</b></td><td>Ορισμένου <span class="sub2">έληξε 31/07</span></td><td>—</td><td class="r num">1.300,00</td><td class="r num">1.036,60</td><td><span class="badge mut">αποχώρησε 31/07</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Μιχαηλίδη Άννα</b></td><td>Αορίστου</td><td>Δευ–Παρ 10:00–18:00</td><td class="r num">1.950,00</td><td class="r num">1.537,60</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Νικολάου Σοφία</b></td><td>Αορίστου</td><td>Δευ–Παρ 09:00–17:00</td><td class="r num">1.700,00</td><td class="r num">1.346,55</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Οικονόμου Πέτρος</b></td><td>Ορισμένου <span style="color:var(--amber);font-size:.75rem;font-weight:600">λήγει 31/08</span></td><td>Δευ–Παρ 09:00–17:00</td><td class="r num">1.500,00</td><td class="r num">1.191,50</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Παπαδοπούλου Μαρία</b></td><td>Αορίστου</td><td>Δευ–Παρ 09:00–17:00</td><td class="r num">1.850,00</td><td class="r num">1.463,28</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Παππάς Χρήστος</b></td><td>Αορίστου</td><td>Δευ–Παρ 09:00–17:00</td><td class="r num">1.450,00</td><td class="r num">1.152,74</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Σταθοπούλου Ειρήνη</b></td><td>Αορίστου</td><td>Μερική · Δευ, Τετ, Παρ 09:00–13:00</td><td class="r num">820,00</td><td class="r num">663,25</td><td><span class="badge ok">Ενεργή</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -549,6 +555,10 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
           <section class="card" aria-label="Επόμενες υποχρεώσεις">
             <div class="hd"><svg class="i"><use href="#ic-cal"/></svg> Έρχονται</div>
             <div class="bd">
+              <div class="row">
+                <span class="t">Λήξη σύμβασης ορισμένου χρόνου <span class="sub2">— Οικονόμου Πέτρος · ανανέωση ή ψηφιακή αναγγελία λήξης</span></span>
+                <span class="badge warn">31/08</span>
+              </div>
               <div class="row">
                 <span class="t">ΑΠΔ Αυγούστου <span class="sub2">— θα ετοιμαστεί αυτόματα με την έγκριση του μήνα</span></span>
                 <span class="badge mut">Σεπτέμβριος</span>
@@ -746,7 +756,23 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
                 <div class="f"><div class="k">Είδος</div><div class="v">Πλήρης απασχόληση</div></div>
                 <div class="f"><div class="k">Διάρκεια</div><div class="v">Αορίστου χρόνου</div></div>
                 <div class="f"><div class="k">Έναρξη</div><div class="v num">03/02/2025</div></div>
-                <div class="f"><div class="k">Ωράριο</div><div class="v">Δευ–Παρ · 09:00–17:00</div></div>
+                <div class="f" style="grid-column:1/-1">
+                  <div class="k" style="display:flex;align-items:center;gap:5px">Εβδομαδιαίο ωράριο
+                    <span class="info" tabindex="0" aria-label="Κανόνας ΕΡΓΑΝΗ για το ωράριο">
+                      <svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                      <span class="tip" role="tooltip">Κάθε αλλαγή ωραρίου δηλώνεται ψηφιακά στην ΕΡΓΑΝΗ (ΨΟΧΕ) <b>πριν ισχύσει</b> — το abax την ετοιμάζει αυτόματα όταν αλλάξεις κάτι εδώ.</span>
+                    </span>
+                  </div>
+                  <div class="week num">
+                    <span class="day"><b>Δευ</b>09–17</span>
+                    <span class="day"><b>Τρι</b>09–17</span>
+                    <span class="day"><b>Τετ</b>09–17</span>
+                    <span class="day"><b>Πεμ</b>09–17</span>
+                    <span class="day"><b>Παρ</b>09–17</span>
+                    <span class="day off"><b>Σαβ</b>—</span>
+                    <span class="day off"><b>Κυρ</b>—</span>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
