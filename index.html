@@ -253,8 +253,14 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
   transition:opacity 125ms var(--ease),transform 125ms var(--ease)}
 .info:hover .tip,.info:focus .tip,.info:focus-visible .tip{opacity:1;transform:translateX(-50%) scale(1);transition-delay:300ms}
 .tip-down{bottom:auto;top:calc(100% + 8px);transform-origin:top center}
+/* viewport-aware anchoring — applied by fixTips() to every tooltip */
 .tip.edge-r{left:auto;right:0;transform:translateX(0) scale(.97);transform-origin:bottom right}
-.info:hover .tip.edge-r,.info:focus .tip.edge-r,.info:focus-visible .tip.edge-r{transform:translateX(0) scale(1)}
+.tip.edge-l{left:0;transform:translateX(0) scale(.97);transform-origin:bottom left}
+.info:hover .tip.edge-r,.info:focus .tip.edge-r,.info:focus-visible .tip.edge-r,
+.info:hover .tip.edge-l,.info:focus .tip.edge-l,.info:focus-visible .tip.edge-l{transform:translateX(0) scale(1)}
+.tip.edge-t{bottom:auto;top:calc(100% + 8px);transform-origin:top center}
+.tip.edge-t.edge-r{transform-origin:top right}
+.tip.edge-t.edge-l{transform-origin:top left}
 
 /* toggle switch */
 .tog{position:relative;width:38px;height:22px;border-radius:999px;background:var(--border);
@@ -1209,16 +1215,24 @@ function go(id){
   fixTips();
 }
 
-// keep tooltips inside the viewport (right-anchor those that would clip)
+// general rule: every tooltip stays inside the viewport
 function fixTips(){
   document.querySelectorAll('.tip').forEach(t=>{
-    t.classList.remove('edge-r');
+    t.classList.remove('edge-r','edge-l','edge-t');
     const r=t.getBoundingClientRect();
-    if(r.width && r.right>innerWidth-8) t.classList.add('edge-r');
+    if(!r.width) return;
+    if(r.right>innerWidth-8) t.classList.add('edge-r');
+    else if(r.left<8) t.classList.add('edge-l');
+    if(!t.classList.contains('tip-down') && r.top<8) t.classList.add('edge-t');
   });
 }
 window.addEventListener('resize',fixTips);
 window.addEventListener('DOMContentLoaded',fixTips);
+let tipScrollRaf=null;
+window.addEventListener('scroll',()=>{
+  if(tipScrollRaf) return;
+  tipScrollRaf=requestAnimationFrame(()=>{tipScrollRaf=null;fixTips();});
+},{passive:true});
 
 // mobile drawer
 function toggleDrawer(open){
