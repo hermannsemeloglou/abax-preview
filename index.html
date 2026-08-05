@@ -224,6 +224,17 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
 .leave-bar{height:8px;border-radius:8px;background:var(--muted);overflow:hidden;margin-top:10px}
 .leave-bar i{display:block;height:100%;width:48%;background:var(--accent);border-radius:8px}
 
+/* toggle switch */
+.tog{position:relative;width:38px;height:22px;border-radius:999px;background:var(--border);
+  transition:background 150ms ease;flex:none;cursor:pointer}
+.tog::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:999px;
+  background:#fff;box-shadow:0 1px 2px rgb(15 23 42 / .25);transition:transform 160ms var(--ease)}
+.tog.on{background:var(--accent)}
+.tog.on::after{transform:translateX(16px)}
+.tog:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chip{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--muted);
+  font-size:.75rem;font-weight:600;color:var(--fg-2)}
+
 /* guided submission steps */
 .gstep{display:flex;align-items:flex-start;gap:11px;padding:7px 0;font-size:.875rem}
 .gstep .n{width:22px;height:22px;border-radius:999px;background:var(--accent-soft);color:var(--accent);
@@ -271,7 +282,7 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
     <button class="nav-btn" data-nav="people" onclick="go('people')"><svg class="i"><use href="#ic-users"/></svg> Προσωπικό</button>
     <button class="nav-btn" onclick="go('home')"><svg class="i"><use href="#ic-money"/></svg> Μισθοδοσίες</button>
     <button class="nav-btn" data-nav="oblig" onclick="go('oblig')"><svg class="i"><use href="#ic-file"/></svg> Υποχρεώσεις</button>
-    <button class="nav-btn" onclick="go('home')"><svg class="i"><use href="#ic-set"/></svg> Ρυθμίσεις</button>
+    <button class="nav-btn" data-nav="settings" onclick="go('settings')"><svg class="i"><use href="#ic-set"/></svg> Ρυθμίσεις</button>
     <div class="foot">Concept mockup<br>Ενδεικτικά δεδομένα</div>
   </nav>
 
@@ -558,6 +569,102 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
       </div>
     </main>
 
+    <!-- ================= ΡΥΘΜΙΣΕΙΣ ================= -->
+    <main class="view" id="view-settings">
+      <div class="content">
+        <div class="people-top"><h1>Ρυθμίσεις</h1></div>
+
+        <div class="grid2" style="margin-top:0">
+          <!-- organization -->
+          <section class="card">
+            <div class="hd">Οργανισμός
+              <span class="spacer" style="flex:1"></span>
+              <button class="btn btn-sec" style="padding:6px 12px">Επεξεργασία</button>
+            </div>
+            <div class="bd">
+              <div class="kv">
+                <div class="f"><div class="k">Επωνυμία</div><div class="v">Demo ΙΚΕ</div></div>
+                <div class="f"><div class="k">ΑΦΜ</div><div class="v num">9•••••••1</div></div>
+                <div class="f"><div class="k">ΔΟΥ</div><div class="v">Ζ΄ Θεσσαλονίκης</div></div>
+                <div class="f"><div class="k">ΑΜΕ ΕΦΚΑ</div><div class="v num">1•••••••2</div></div>
+                <div class="f" style="grid-column:1/-1"><div class="k">Έδρα</div><div class="v">Δημητρίου Γούναρη 10, Θεσσαλονίκη</div></div>
+                <div class="f" style="grid-column:1/-1"><div class="k">Τμήματα</div>
+                  <div class="v" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+                    <span class="chip">SMP</span><span class="chip">CS</span><span class="chip">Core</span>
+                    <button class="btn btn-ghost" style="padding:2px 8px;font-size:.75rem">+ Νέο τμήμα</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- payroll settings -->
+          <section class="card">
+            <div class="hd">Μισθοδοσία &amp; πληρωμές</div>
+            <div class="bd">
+              <div class="kv">
+                <div class="f"><div class="k">Ημέρα πληρωμής</div><div class="v">Τελευταία εργάσιμη του μήνα</div></div>
+                <div class="f"><div class="k">Λογαριασμός εταιρείας</div><div class="v num">GR•• •••• 8842</div></div>
+              </div>
+              <div class="row" style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px">
+                <span class="t">Αυτόματη αποστολή αποδείξεων <span class="sub2">— email σε κάθε εργαζόμενο με την έγκριση του μήνα</span></span>
+                <button class="tog on" onclick="tog(this)" role="switch" aria-checked="true" aria-label="Αυτόματη αποστολή αποδείξεων"></button>
+              </div>
+              <div class="row">
+                <span class="t">Δοκιμαστικός έλεγχος πριν την έγκριση <span class="sub2">— διπλός υπολογισμός για επιβεβαίωση</span></span>
+                <button class="tog on" onclick="tog(this)" role="switch" aria-checked="true" aria-label="Δοκιμαστικός έλεγχος"></button>
+              </div>
+            </div>
+          </section>
+
+          <!-- users & roles -->
+          <section class="card">
+            <div class="hd">Χρήστες &amp; ρόλοι
+              <span class="spacer" style="flex:1"></span>
+              <button class="btn btn-pri" style="padding:6px 12px"><svg class="i" style="width:15px;height:15px"><use href="#ic-plus"/></svg> Πρόσκληση</button>
+            </div>
+            <div class="bd">
+              <div class="row">
+                <span class="avatar" style="width:34px;height:34px">ΧΡ</span>
+                <span class="t"><b>Εσύ</b> <span class="sub2">— πλήρης πρόσβαση</span></span>
+                <span class="badge mut">Ιδιοκτήτης</span>
+              </div>
+              <div class="row">
+                <span class="avatar" style="width:34px;height:34px;background:var(--accent-soft);color:var(--accent)">ΛΟ</span>
+                <span class="t"><b>Ο λογιστής σου</b> <span class="sub2">— βλέπει &amp; εγκρίνει, δεν χρειάζεται να περιμένεις</span></span>
+                <span class="badge warn">εκκρεμεί αποδοχή</span>
+              </div>
+              <p class="sub" style="margin-top:12px;font-size:.78125rem">Ο ρόλος «Λογιστής» έχει πλήρη πρόσβαση στους υπολογισμούς και τα αρχεία, χωρίς δικαίωμα διαγραφής οργανισμού.</p>
+            </div>
+          </section>
+
+          <!-- notifications -->
+          <section class="card">
+            <div class="hd">Ειδοποιήσεις</div>
+            <div class="bd">
+              <div class="row">
+                <span class="t">Προθεσμίες υποχρεώσεων <span class="sub2">— email 5 μέρες πριν από κάθε προθεσμία</span></span>
+                <button class="tog on" onclick="tog(this)" role="switch" aria-checked="true" aria-label="Ειδοποιήσεις προθεσμιών"></button>
+              </div>
+              <div class="row">
+                <span class="t">Ολοκλήρωση μισθοδοσίας <span class="sub2">— σύνοψη μήνα όταν εγκριθεί</span></span>
+                <button class="tog on" onclick="tog(this)" role="switch" aria-checked="true" aria-label="Ειδοποίηση ολοκλήρωσης"></button>
+              </div>
+              <div class="row">
+                <span class="t">Αλλαγές νομοθεσίας <span class="sub2">— όταν αλλάζει κάτι που σε επηρεάζει (συντελεστές, προθεσμίες)</span></span>
+                <button class="tog on" onclick="tog(this)" role="switch" aria-checked="true" aria-label="Ειδοποιήσεις νομοθεσίας"></button>
+              </div>
+              <div class="row">
+                <span class="t">Εβδομαδιαία σύνοψη <span class="sub2">— κάθε Δευτέρα πρωί</span></span>
+                <button class="tog" onclick="tog(this)" role="switch" aria-checked="false" aria-label="Εβδομαδιαία σύνοψη"></button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </main>
+
     <!-- ================= EMPLOYEE ================= -->
     <main class="view" id="view-employee">
       <div class="content">
@@ -745,6 +852,12 @@ document.addEventListener('keydown',e=>{
     document.getElementById('orgBtn').setAttribute('aria-expanded','false');
   }
 });
+
+// settings toggles
+function tog(el){
+  el.classList.toggle('on');
+  el.setAttribute('aria-checked', el.classList.contains('on'));
+}
 
 // guided ΑΠΔ steps
 function toggleApd(){
