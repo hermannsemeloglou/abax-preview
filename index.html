@@ -245,6 +245,7 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
   padding:8px 11px;border-radius:8px;text-align:left;z-index:40;
   transition:opacity 125ms var(--ease),transform 125ms var(--ease)}
 .info:hover .tip,.info:focus-visible .tip{opacity:1;transform:translateX(-50%) scale(1);transition-delay:300ms}
+.tip-down{bottom:auto;top:calc(100% + 8px);transform-origin:top center}
 
 /* toggle switch */
 .tog{position:relative;width:38px;height:22px;border-radius:999px;background:var(--border);
@@ -608,31 +609,40 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
       <div class="content">
         <div class="people-top">
           <h1>Έγγραφα</h1>
-          <span class="sub" style="align-self:center">Όλα κατεβαίνουν προσυμπληρωμένα με τα στοιχεία του οργανισμού σου</span>
+          <span class="info" tabindex="0" aria-label="Σχετικά με τα έγγραφα" style="align-self:center">
+            <svg class="i" style="width:16px;height:16px"><use href="#ic-info"/></svg>
+            <span class="tip tip-down">Όλα τα έγγραφα κατεβαίνουν προσυμπληρωμένα με τα στοιχεία του οργανισμού. Η αναζήτηση δουλεύει και με τα παλιά ονόματα (Ε3, Ε4…).</span>
+          </span>
         </div>
         <div class="search" style="margin-bottom:16px">
           <svg class="i"><use href="#ic-search"/></svg>
-          <input type="search" placeholder="Ψάξε έγγραφο — δουλεύει και με τα παλιά ονόματα (π.χ. Ε4, ΑΠΔ)…" aria-label="Αναζήτηση εγγράφων" oninput="filterDocs(this.value)">
+          <input type="search" placeholder="Αναζήτηση εγγράφου…" aria-label="Αναζήτηση εγγράφων" oninput="filterDocs(this.value)">
         </div>
 
         <section class="card doc-card">
-          <div class="hd">Όταν προσλαμβάνεις</div>
+          <div class="hd">Πρόσληψη</div>
           <div class="bd">
             <div class="row doc-row">
-              <span class="t"><b>Ψηφιακή Αναγγελία Έναρξης Εργασίας</b> <span class="oldform">πρώην Ε3</span><br>
-                <span class="sub2">Η δήλωση της πρόσληψης — υποβάλλεται πριν την πρώτη μέρα· ο εργαζόμενος την αποδέχεται στο myErgani, αλλιώς ακυρώνεται αυτόματα</span></span>
+              <span class="t"><b>Ψηφιακή Αναγγελία Έναρξης Εργασίας</b> <span class="oldform">πρώην Ε3</span>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Υποβάλλεται πριν την πρώτη μέρα εργασίας. Ο εργαζόμενος την αποδέχεται στο myErgani, αλλιώς ανακαλείται αυτόματα.</span></span><br>
+                <span class="sub2">Δήλωση νέας πρόσληψης</span></span>
               <span class="badge sys">ΕΡΓΑΝΗ ΙΙ</span>
               <button class="icon-btn" aria-label="Λήψη προσυμπληρωμένης αναγγελίας"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Σύμβαση εργασίας</b><br>
-                <span class="sub2">Το συμφωνητικό με τον εργαζόμενο — αορίστου, ορισμένου ή μερικής· υπογράφεται πριν την έναρξη</span></span>
+              <span class="t"><b>Σύμβαση εργασίας</b>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Αορίστου, ορισμένου ή μερικής απασχόλησης. Υπογράφεται πριν την έναρξη.</span></span><br>
+                <span class="sub2">Το συμφωνητικό εργοδότη–εργαζομένου</span></span>
               <span class="badge mut">Εσωτερικό</span>
               <button class="icon-btn" aria-label="Λήψη προσυμπληρωμένης σύμβασης"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Γνωστοποίηση όρων εργασίας</b><br>
-                <span class="sub2">Έγγραφη ενημέρωση του εργαζομένου για τους βασικούς όρους (ρόλος, αποδοχές, ωράριο) — παραδίδεται κατά την πρόσληψη</span></span>
+              <span class="t"><b>Γνωστοποίηση όρων εργασίας</b>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Παραδίδεται εγγράφως κατά την πρόσληψη (ρόλος, αποδοχές, ωράριο).</span></span><br>
+                <span class="sub2">Ενημέρωση του εργαζομένου για τους όρους εργασίας</span></span>
               <span class="badge mut">Στον εργαζόμενο</span>
               <button class="icon-btn" aria-label="Λήψη γνωστοποίησης όρων"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
@@ -640,35 +650,45 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
         </section>
 
         <section class="card doc-card mt">
-          <div class="hd">Κάθε μήνα</div>
+          <div class="hd">Μηνιαία μισθοδοσία</div>
           <div class="bd">
             <div class="row doc-row">
-              <span class="t"><b>ΑΠΔ — Αναλυτική Περιοδική Δήλωση</b><br>
-                <span class="sub2">Ποιος δούλεψε, πόσες μέρες, με τι αποδοχές και εισφορές — το αρχείο ανεβαίνει στο e-ΕΦΚΑ ως το τέλος του επόμενου μήνα</span></span>
+              <span class="t"><b>ΑΠΔ — Αναλυτική Περιοδική Δήλωση</b>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Ανεβαίνει στο e-ΕΦΚΑ έως το τέλος του επόμενου μήνα.</span></span><br>
+                <span class="sub2">Μηνιαία δήλωση ημερών, αποδοχών και εισφορών</span></span>
               <span class="badge sys">e-ΕΦΚΑ</span>
               <button class="icon-btn" aria-label="Λήψη αρχείου ΑΠΔ"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Αποδείξεις αποδοχών (εκκαθαριστικά)</b><br>
-                <span class="sub2">Η ανάλυση μισθού κάθε εργαζομένου — μικτά, κρατήσεις, καθαρά· παραδίδεται με την πληρωμή</span></span>
+              <span class="t"><b>Αποδείξεις αποδοχών</b>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Παραδίδονται με κάθε πληρωμή (μικτά, κρατήσεις, καθαρά).</span></span><br>
+                <span class="sub2">Ανάλυση μισθού ανά εργαζόμενο</span></span>
               <span class="badge mut">Στον εργαζόμενο</span>
               <button class="icon-btn" aria-label="Λήψη αποδείξεων"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Μισθοδοτική κατάσταση</b><br>
-                <span class="sub2">Η συνολική εικόνα του μήνα ανά εργαζόμενο και τμήμα — ό,τι σου στέλνει σήμερα ο λογιστής σε xlsx</span></span>
+              <span class="t"><b>Μισθοδοτική κατάσταση</b>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Ανά εργαζόμενο και τμήμα, με σύνολα.</span></span><br>
+                <span class="sub2">Συνολική εικόνα μισθοδοσίας του μήνα</span></span>
               <span class="badge mut">Εσωτερικό</span>
               <button class="icon-btn" aria-label="Λήψη μισθοδοτικής κατάστασης"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Δήλωση ΦΜΥ</b><br>
-                <span class="sub2">Ο φόρος που παρακρατήθηκε από τους μισθούς — δηλώνεται στο myAADE ως το τέλος του επόμενου μήνα</span></span>
+              <span class="t"><b>Δήλωση ΦΜΥ</b>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Δηλώνεται στο myAADE έως το τέλος του επόμενου μήνα.</span></span><br>
+                <span class="sub2">Απόδοση του παρακρατηθέντος φόρου μισθών</span></span>
               <span class="badge sys">myAADE</span>
               <button class="icon-btn" aria-label="Λήψη ποσών ΦΜΥ"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Αρχείο πληρωμών τράπεζας</b><br>
-                <span class="sub2">Μαζική εντολή μισθών για ανέβασμα στο e-banking — όλες οι πληρωμές με ένα αρχείο</span></span>
+              <span class="t"><b>Αρχείο πληρωμών τράπεζας</b>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Ανεβαίνει στο e-banking, μία εντολή για όλους.</span></span><br>
+                <span class="sub2">Μαζική εντολή πληρωμής μισθών</span></span>
               <span class="badge mut">Τράπεζα</span>
               <button class="icon-btn" aria-label="Λήψη αρχείου τράπεζας"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
@@ -676,23 +696,29 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
         </section>
 
         <section class="card doc-card mt">
-          <div class="hd">Ωράριο &amp; αλλαγές</div>
+          <div class="hd">Ωράριο &amp; μεταβολές</div>
           <div class="bd">
             <div class="row doc-row">
-              <span class="t"><b>Ψηφιακή Δήλωση Μεταβολής Στοιχείων</b> <span class="oldform">πρώην Ε4 τροποπ.</span><br>
-                <span class="sub2">Κάθε αλλαγή σε αποδοχές ή όρους εργασίας — υποβάλλεται πριν ισχύσει η αλλαγή</span></span>
+              <span class="t"><b>Ψηφιακή Δήλωση Μεταβολής Στοιχείων</b> <span class="oldform">πρώην Ε4 τροποπ.</span>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Υποβάλλεται πριν ισχύσει η αλλαγή.</span></span><br>
+                <span class="sub2">Δήλωση αλλαγών σε αποδοχές ή όρους εργασίας</span></span>
               <span class="badge sys">ΕΡΓΑΝΗ ΙΙ</span>
               <button class="icon-btn" aria-label="Λήψη δήλωσης μεταβολής"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Δήλωση ωραρίου &amp; υπερωριών (ΨΟΧΕ)</b> <span class="oldform">πρώην Ε8</span><br>
-                <span class="sub2">Το πρόγραμμα εργασίας και οι υπερωρίες — δηλώνονται ψηφιακά πριν συμβούν</span></span>
+              <span class="t"><b>Δήλωση ωραρίου &amp; υπερωριών (ΨΟΧΕ)</b> <span class="oldform">πρώην Ε8</span>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Δηλώνονται πριν συμβούν.</span></span><br>
+                <span class="sub2">Το δηλωμένο πρόγραμμα εργασίας και οι υπερωρίες</span></span>
               <span class="badge sys">ΕΡΓΑΝΗ ΙΙ</span>
               <button class="icon-btn" aria-label="Λήψη δήλωσης ωραρίου"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Πίνακας Προσωπικού (τρέχουσα εικόνα)</b> <span class="oldform">πρώην Ε4</span><br>
-                <span class="sub2">Η σημερινή κατάσταση όλου του προσωπικού σε PDF, για έλεγχο ΣΕΠΕ, τράπεζα ή λογιστή</span></span>
+              <span class="t"><b>Πίνακας Προσωπικού</b> <span class="oldform">πρώην Ε4</span>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Για έλεγχο ΣΕΠΕ, τράπεζα ή λογιστή.</span></span><br>
+                <span class="sub2">Η τρέχουσα εικόνα του προσωπικού σε PDF</span></span>
               <span class="badge mut">Εσωτερικό</span>
               <button class="icon-btn" aria-label="Λήψη πίνακα προσωπικού"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
@@ -703,14 +729,18 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
           <div class="hd">Άδειες &amp; απουσίες</div>
           <div class="bd">
             <div class="row doc-row">
-              <span class="t"><b>Ψηφιακή δήλωση άδειας</b> <span class="oldform">πρώην Ε11 + Βιβλίο Αδειών</span><br>
-                <span class="sub2">Κάθε άδεια δηλώνεται πριν ξεκινήσει — το παλιό βιβλίο αδειών και το ετήσιο Ε11 καταργήθηκαν από 1/1/2026</span></span>
+              <span class="t"><b>Ψηφιακή δήλωση άδειας</b> <span class="oldform">πρώην Ε11</span>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Υποβάλλεται πριν την έναρξη της άδειας.</span></span><br>
+                <span class="sub2">Δήλωση κάθε άδειας</span></span>
               <span class="badge sys">ΕΡΓΑΝΗ ΙΙ</span>
               <button class="icon-btn" aria-label="Λήψη δήλωσης άδειας"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Αίτηση άδειας</b><br>
-                <span class="sub2">Η εσωτερική αίτηση του εργαζομένου — για το αρχείο σου, με τα υπόλοιπα ημερών ενημερωμένα</span></span>
+              <span class="t"><b>Αίτηση άδειας</b>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Με ενημερωμένα υπόλοιπα ημερών.</span></span><br>
+                <span class="sub2">Εσωτερική αίτηση εργαζομένου</span></span>
               <span class="badge mut">Εσωτερικό</span>
               <button class="icon-btn" aria-label="Λήψη αίτησης άδειας"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
@@ -718,23 +748,29 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
         </section>
 
         <section class="card doc-card mt">
-          <div class="hd">Όταν αποχωρεί κάποιος</div>
+          <div class="hd">Αποχώρηση</div>
           <div class="bd">
             <div class="row doc-row">
-              <span class="t"><b>Ψηφιακή Αναγγελία Λύσης/Λήξης Σύμβασης</b> <span class="oldform">πρώην Ε5/Ε6/Ε7</span><br>
-                <span class="sub2">Παραίτηση, απόλυση ή λήξη ορισμένου χρόνου — μία δήλωση για όλα, εντός 4 εργάσιμων ημερών</span></span>
+              <span class="t"><b>Ψηφιακή Αναγγελία Λύσης/Λήξης Σύμβασης</b> <span class="oldform">πρώην Ε5/Ε6/Ε7</span>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Υποβάλλεται εντός 4 εργάσιμων ημερών.</span></span><br>
+                <span class="sub2">Δήλωση αποχώρησης, απόλυσης ή λήξης σύμβασης</span></span>
               <span class="badge sys">ΕΡΓΑΝΗ ΙΙ</span>
               <button class="icon-btn" aria-label="Λήψη αναγγελίας λύσης"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Υπολογισμός αποζημίωσης απόλυσης</b><br>
-                <span class="sub2">Πόση αποζημίωση αναλογεί με βάση προϋπηρεσία και προειδοποίηση — με πλήρη ανάλυση του υπολογισμού</span></span>
+              <span class="t"><b>Υπολογισμός αποζημίωσης απόλυσης</b>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Βάσει προϋπηρεσίας και προειδοποίησης.</span></span><br>
+                <span class="sub2">Η αναλογούσα αποζημίωση με πλήρη ανάλυση</span></span>
               <span class="badge mut">Εσωτερικό</span>
               <button class="icon-btn" aria-label="Λήψη υπολογισμού αποζημίωσης"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
             <div class="row doc-row">
-              <span class="t"><b>Βεβαίωση αποδοχών</b><br>
-                <span class="sub2">Τι πληρώθηκε συνολικά ο εργαζόμενος — τη ζητά για δάνεια, επιδόματα ή τη φορολογική του δήλωση</span></span>
+              <span class="t"><b>Βεβαίωση αποδοχών</b>
+                <span class="info" tabindex="0" aria-label="Λεπτομέρειες"><svg class="i" style="width:14px;height:14px"><use href="#ic-info"/></svg>
+                  <span class="tip">Για δάνεια, επιδόματα ή φορολογική χρήση.</span></span><br>
+                <span class="sub2">Βεβαίωση συνολικών αποδοχών εργαζομένου</span></span>
               <span class="badge mut">Στον εργαζόμενο</span>
               <button class="icon-btn" aria-label="Λήψη βεβαίωσης αποδοχών"><svg class="i"><use href="#ic-dl"/></svg></button>
             </div>
