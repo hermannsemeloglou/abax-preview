@@ -348,7 +348,7 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
     </div>
     <button class="nav-btn on" data-nav="home" onclick="go('home')"><svg class="i"><use href="#ic-home"/></svg> Επισκόπηση</button>
     <button class="nav-btn" data-nav="people" onclick="go('people')"><svg class="i"><use href="#ic-users"/></svg> Προσωπικό</button>
-    <button class="nav-btn" onclick="go('home')"><svg class="i"><use href="#ic-money"/></svg> Μισθοδοσίες</button>
+    <button class="nav-btn" data-nav="runs" onclick="go('runs')"><svg class="i"><use href="#ic-money"/></svg> Μισθοδοσία</button>
     <button class="nav-btn" data-nav="oblig" onclick="go('oblig')"><svg class="i"><use href="#ic-file"/></svg> Υποχρεώσεις</button>
     <button class="nav-btn" data-nav="docs" onclick="go('docs')"><svg class="i"><use href="#ic-book"/></svg> Έγγραφα</button>
     <button class="nav-btn" data-nav="settings" onclick="go('settings')"><svg class="i"><use href="#ic-set"/></svg> Ρυθμίσεις</button>
@@ -470,6 +470,85 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
           </section>
         </div>
 
+      </div>
+    </main>
+
+    <!-- ================= ΜΙΣΘΟΔΟΣΙΑ (runs) ================= -->
+    <main class="view" id="view-runs">
+      <div class="content">
+        <div class="people-top">
+          <h1>Μισθοδοσία</h1>
+          <span class="pill">2026</span>
+        </div>
+
+        <section class="card" aria-label="Τρέχουσα μισθοδοσία">
+          <div class="bd">
+            <div class="row">
+              <span class="t"><b>Αύγουστος 2026</b> <span class="sub2">βήμα 2 από 3 · 2 εκκρεμότητες</span></span>
+              <span class="badge warn">σε εξέλιξη</span>
+              <button class="btn btn-pri" style="padding:7px 14px" onclick="go('home')">Συνέχεια <svg class="i" style="width:15px;height:15px"><use href="#ic-arrow"/></svg></button>
+            </div>
+          </div>
+        </section>
+
+        <div class="grid2">
+          <section class="card" aria-label="Ολοκληρωμένες μισθοδοσίες">
+            <div class="hd"><svg class="i" style="color:var(--green)"><use href="#ic-check"/></svg> Ολοκληρωμένες</div>
+            <div class="bd num">
+              <div class="row">
+                <span class="t">Ιούλιος 2026 <span class="sub2">52 εργαζόμενοι</span></span>
+                <span class="t" style="flex:none;font-weight:600">117.000 €</span>
+                <button class="icon-btn" aria-label="Λήψη αρχείων Ιουλίου"><svg class="i"><use href="#ic-dl"/></svg></button>
+              </div>
+              <div class="row">
+                <span class="t">Ιούνιος 2026 <span class="sub2">51 εργαζόμενοι</span></span>
+                <span class="t" style="flex:none;font-weight:600">116.420 €</span>
+                <button class="icon-btn" aria-label="Λήψη αρχείων Ιουνίου"><svg class="i"><use href="#ic-dl"/></svg></button>
+              </div>
+              <div class="row">
+                <span class="t">Μάιος 2026 <span class="sub2">51 εργαζόμενοι</span></span>
+                <span class="t" style="flex:none;font-weight:600">116.980 €</span>
+                <button class="icon-btn" aria-label="Λήψη αρχείων Μαΐου"><svg class="i"><use href="#ic-dl"/></svg></button>
+              </div>
+              <div class="row">
+                <span class="t">Απρίλιος 2026 <span class="sub2">50 εργαζόμενοι</span></span>
+                <span class="t" style="flex:none;font-weight:600">116.100 €</span>
+                <button class="icon-btn" aria-label="Λήψη αρχείων Απριλίου"><svg class="i"><use href="#ic-dl"/></svg></button>
+              </div>
+              <div class="more-row">Πλήρες ιστορικό 2026 στο πλήρες προϊόν</div>
+            </div>
+          </section>
+
+          <section class="card" aria-label="Δώρα και επιδόματα">
+            <div class="hd">Δώρα &amp; επιδόματα
+              <span class="info" tabindex="0" aria-label="Σχετικά με τα δώρα"><svg class="i" style="width:15px;height:15px"><use href="#ic-info"/></svg>
+                <span class="tip">Υπολογίζονται και προετοιμάζονται αυτόματα στις νόμιμες ημερομηνίες.</span></span>
+            </div>
+            <div class="bd num">
+              <div class="row">
+                <span class="t">Επίδομα αδείας <span class="sub2">καταβλήθηκε με τον Ιούλιο</span></span>
+                <span class="t" style="flex:none;font-weight:600">55.900 €</span>
+                <span class="badge ok">✓</span>
+              </div>
+              <div class="row">
+                <span class="t">Δώρο Πάσχα <span class="sub2">καταβλήθηκε 15/04</span></span>
+                <span class="t" style="flex:none;font-weight:600">58.400 €</span>
+                <span class="badge ok">✓</span>
+              </div>
+              <div class="row">
+                <span class="t">Δώρο Χριστουγέννων <span class="sub2">προετοιμάζεται αυτόματα</span></span>
+                <span class="t" style="flex:none;font-weight:600">—</span>
+                <span class="badge mut">έως 21/12</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="tiles mt" aria-label="Σύνοψη έτους">
+          <div class="card tile"><div class="k">Κόστος 2026 έως τώρα</div><div class="v num">933.100 €</div><div class="d">7 μισθοδοσίες + δώρα</div></div>
+          <div class="card tile"><div class="k">Μέσο μηνιαίο κόστος</div><div class="v num">116.900 €</div><div class="d">Ιαν–Ιουλ</div></div>
+          <div class="card tile"><div class="k">Επόμενη ειδική καταβολή</div><div class="v">Δώρο Χριστουγέννων</div><div class="d">έως 21/12</div></div>
+        </section>
       </div>
     </main>
 
