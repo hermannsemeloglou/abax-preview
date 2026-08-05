@@ -648,12 +648,18 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
             <svg class="i" style="width:16px;height:16px"><use href="#ic-info"/></svg>
             <span class="tip tip-down">Όλα τα έγγραφα κατεβαίνουν προσυμπληρωμένα με τα στοιχεία του οργανισμού. Η αναζήτηση δουλεύει και με τα παλιά ονόματα (Ε3, Ε4…).</span>
           </span>
+          <span class="spacer" style="flex:1"></span>
+          <div class="seg" role="tablist" aria-label="Ομαδοποίηση εγγράφων">
+            <button class="on" id="segMoment" onclick="setDocsView('moment')" role="tab" aria-selected="true">Περίσταση</button>
+            <button id="segService" onclick="setDocsView('service')" role="tab" aria-selected="false">Υπηρεσία</button>
+          </div>
         </div>
         <div class="search" style="margin-bottom:16px">
           <svg class="i"><use href="#ic-search"/></svg>
           <input type="search" placeholder="Αναζήτηση εγγράφου…" aria-label="Αναζήτηση εγγράφων" oninput="filterDocs(this.value)">
         </div>
 
+        <div id="docsByMoment">
         <section class="card doc-card">
           <div class="hd">Πρόσληψη</div>
           <div class="bd">
@@ -811,6 +817,45 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
             </div>
           </div>
         </section>
+
+        </div>
+
+        <!-- grouped by service (rows are moved here by JS) -->
+        <div id="docsByService" style="display:none">
+          <section class="card doc-card">
+            <div class="hd">ΕΡΓΑΝΗ ΙΙ
+              <span class="info" tabindex="0" aria-label="Τι είναι η ΕΡΓΑΝΗ"><svg class="i" style="width:15px;height:15px"><use href="#ic-info"/></svg>
+                <span class="tip">Το σύστημα του Υπουργείου Εργασίας: προσλήψεις, ωράρια, άδειες, αποχωρήσεις.</span></span>
+            </div>
+            <div class="bd" data-sys="ergani"></div>
+          </section>
+          <section class="card doc-card mt">
+            <div class="hd">e-ΕΦΚΑ
+              <span class="info" tabindex="0" aria-label="Τι είναι ο ΕΦΚΑ"><svg class="i" style="width:15px;height:15px"><use href="#ic-info"/></svg>
+                <span class="tip">Ο ασφαλιστικός φορέας: εισφορές και ΑΠΔ.</span></span>
+            </div>
+            <div class="bd" data-sys="efka"></div>
+          </section>
+          <section class="card doc-card mt">
+            <div class="hd">myAADE
+              <span class="info" tabindex="0" aria-label="Τι είναι η ΑΑΔΕ"><svg class="i" style="width:15px;height:15px"><use href="#ic-info"/></svg>
+                <span class="tip">Η εφορία: απόδοση του φόρου μισθών (ΦΜΥ).</span></span>
+            </div>
+            <div class="bd" data-sys="aade"></div>
+          </section>
+          <section class="card doc-card mt">
+            <div class="hd">Τράπεζα</div>
+            <div class="bd" data-sys="bank"></div>
+          </section>
+          <section class="card doc-card mt">
+            <div class="hd">Προς τον εργαζόμενο</div>
+            <div class="bd" data-sys="employee"></div>
+          </section>
+          <section class="card doc-card mt">
+            <div class="hd">Εσωτερικά</div>
+            <div class="bd" data-sys="internal"></div>
+          </section>
+        </div>
 
         <p class="sub" id="docsEmpty" style="display:none;text-align:center;padding:24px">Κανένα έγγραφο δεν ταιριάζει — δοκίμασε άλλη λέξη ή το παλιό όνομα του εντύπου.</p>
       </div>
@@ -1118,6 +1163,30 @@ document.addEventListener('keydown',e=>{
     document.getElementById('orgBtn').setAttribute('aria-expanded','false');
   }
 });
+
+// document grouping: by life moment or by destination service
+let docRowsHome=null;
+function setDocsView(m){
+  const rows=[...document.querySelectorAll('#view-docs .doc-row')];
+  if(!docRowsHome) docRowsHome=rows.map(r=>({r,home:r.parentElement}));
+  const byM=document.getElementById('docsByMoment'), byS=document.getElementById('docsByService');
+  if(m==='service'){
+    const map={'ΕΡΓΑΝΗ ΙΙ':'ergani','e-ΕΦΚΑ':'efka','myAADE':'aade','Τράπεζα':'bank','Εσωτερικό':'internal','Στον εργαζόμενο':'employee'};
+    rows.forEach(r=>{
+      const key=map[r.querySelector('.badge').textContent.trim()];
+      const target=byS.querySelector('[data-sys="'+key+'"]');
+      if(target) target.appendChild(r);
+    });
+    byM.style.display='none'; byS.style.display='';
+  }else{
+    docRowsHome.forEach(({r,home})=>home.appendChild(r));
+    byS.style.display='none'; byM.style.display='';
+  }
+  document.getElementById('segMoment').classList.toggle('on',m==='moment');
+  document.getElementById('segService').classList.toggle('on',m==='service');
+  document.getElementById('segMoment').setAttribute('aria-selected',m==='moment');
+  document.getElementById('segService').setAttribute('aria-selected',m==='service');
+}
 
 // document library search — filters rows, hides empty sections
 function filterDocs(q){
