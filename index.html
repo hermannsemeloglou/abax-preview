@@ -253,6 +253,8 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
   transition:opacity 125ms var(--ease),transform 125ms var(--ease)}
 .info:hover .tip,.info:focus .tip,.info:focus-visible .tip{opacity:1;transform:translateX(-50%) scale(1);transition-delay:300ms}
 .tip-down{bottom:auto;top:calc(100% + 8px);transform-origin:top center}
+.tip.edge-r{left:auto;right:0;transform:translateX(0) scale(.97);transform-origin:bottom right}
+.info:hover .tip.edge-r,.info:focus .tip.edge-r,.info:focus-visible .tip.edge-r{transform:translateX(0) scale(1)}
 
 /* toggle switch */
 .tog{position:relative;width:38px;height:22px;border-radius:999px;background:var(--border);
@@ -1204,7 +1206,19 @@ function go(id){
   document.body.classList.add('no-anim'); // entrance stagger is first-paint only
   toggleDrawer(false);
   window.scrollTo(0,0);
+  fixTips();
 }
+
+// keep tooltips inside the viewport (right-anchor those that would clip)
+function fixTips(){
+  document.querySelectorAll('.tip').forEach(t=>{
+    t.classList.remove('edge-r');
+    const r=t.getBoundingClientRect();
+    if(r.width && r.right>innerWidth-8) t.classList.add('edge-r');
+  });
+}
+window.addEventListener('resize',fixTips);
+window.addEventListener('DOMContentLoaded',fixTips);
 
 // mobile drawer
 function toggleDrawer(open){
@@ -1283,6 +1297,7 @@ function setDocsView(m){
   document.getElementById('segService').classList.toggle('on',m==='service');
   document.getElementById('segMoment').setAttribute('aria-selected',m==='moment');
   document.getElementById('segService').setAttribute('aria-selected',m==='service');
+  fixTips();
 }
 
 // document library search — filters rows, hides empty sections
