@@ -224,6 +224,18 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
 .leave-bar{height:8px;border-radius:8px;background:var(--muted);overflow:hidden;margin-top:10px}
 .leave-bar i{display:block;height:100%;width:48%;background:var(--accent);border-radius:8px}
 
+/* info tooltip — delayed on hover, instant scale-from-origin entrance */
+.info{position:relative;display:inline-grid;place-items:center;width:22px;height:22px;
+  border-radius:999px;color:var(--muted-fg);cursor:default;flex:none}
+.info:hover{color:var(--fg-2)}
+.info:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tip{position:absolute;bottom:calc(100% + 8px);left:50%;width:230px;
+  transform:translateX(-50%) scale(.97);transform-origin:bottom center;opacity:0;pointer-events:none;
+  background:var(--fg);color:#fff;font-size:.75rem;font-weight:500;line-height:1.45;
+  padding:8px 11px;border-radius:8px;text-align:left;z-index:40;
+  transition:opacity 125ms var(--ease),transform 125ms var(--ease)}
+.info:hover .tip,.info:focus-visible .tip{opacity:1;transform:translateX(-50%) scale(1);transition-delay:300ms}
+
 /* toggle switch */
 .tog{position:relative;width:38px;height:22px;border-radius:999px;background:var(--border);
   transition:background 150ms ease;flex:none;cursor:pointer}
@@ -263,6 +275,7 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
     <symbol id="ic-chevd" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></symbol>
     <symbol id="ic-chevr" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
     <symbol id="ic-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+    <symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
     <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
     <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
     <symbol id="ic-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
@@ -423,26 +436,26 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
         <section class="card" id="teamList" aria-label="Λίστα εργαζομένων">
           <button class="person" onclick="go('employee')">
             <span class="pava">ΜΠ</span>
-            <span class="grow"><span class="nm">Μαρία Παπαδοπούλου</span><br><span class="rl">Front-end Developer · CS</span></span>
+            <span class="grow"><span class="nm">Μαρία Παπαδοπούλου</span><br><span class="rl">Front-end Developer · Εξυπηρέτηση</span></span>
             <span class="net"><span class="v num">1.463,28 €</span><br><span class="k">καθαρά / μήνα</span></span>
             <svg class="i" style="color:var(--muted-fg)"><use href="#ic-chevr"/></svg>
           </button>
           <button class="person" onclick="go('employee')">
             <span class="pava" style="background:var(--green-soft);color:var(--green)">ΓΑ</span>
-            <span class="grow"><span class="nm">Γιώργος Αντωνίου</span><br><span class="rl">Account Manager · SMP</span></span>
+            <span class="grow"><span class="nm">Γιώργος Αντωνίου</span><br><span class="rl">Account Manager · Πωλήσεις</span></span>
             <span class="net"><span class="v num">1.286,10 €</span><br><span class="k">καθαρά / μήνα</span></span>
             <svg class="i" style="color:var(--muted-fg)"><use href="#ic-chevr"/></svg>
           </button>
           <button class="person" onclick="go('employee')">
             <span class="pava" style="background:var(--amber-soft);color:var(--amber)">ΕΔ</span>
-            <span class="grow"><span class="nm">Ελένη Δήμου</span><br><span class="rl">Operations · Core</span>
+            <span class="grow"><span class="nm">Ελένη Δήμου</span><br><span class="rl">Operations · Διοίκηση</span>
               <span class="badge warn" style="margin-left:8px">λείπει IBAN</span></span>
             <span class="net"><span class="v num">1.152,74 €</span><br><span class="k">καθαρά / μήνα</span></span>
             <svg class="i" style="color:var(--muted-fg)"><use href="#ic-chevr"/></svg>
           </button>
           <button class="person" onclick="go('employee')">
             <span class="pava">ΝΚ</span>
-            <span class="grow"><span class="nm">Νίκος Καραγιάννης</span><br><span class="rl">Designer · SMP</span>
+            <span class="grow"><span class="nm">Νίκος Καραγιάννης</span><br><span class="rl">Designer · Πωλήσεις</span>
               <span class="badge mut" style="margin-left:8px">μερική απασχόληση</span></span>
             <span class="net"><span class="v num">764,90 €</span><br><span class="k">καθαρά / μήνα</span></span>
             <svg class="i" style="color:var(--muted-fg)"><use href="#ic-chevr"/></svg>
@@ -466,18 +479,18 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
                 </tr>
               </thead>
               <tbody>
-                <tr onclick="go('employee')"><td><b>Αντωνίου Γιώργος</b></td><td>Account Manager</td><td>SMP</td><td>Πλήρης</td><td class="r num">1.620,00</td><td class="r num">1.286,10</td><td><span class="badge ok">Ενεργός</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Βασιλείου Κατερίνα</b></td><td>Team Lead</td><td>Core</td><td>Πλήρης</td><td class="r num">2.100,00</td><td class="r num">1.648,90</td><td><span class="badge ok">Ενεργή</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Δήμου Ελένη</b></td><td>Operations</td><td>Core</td><td>Πλήρης</td><td class="r num">1.450,00</td><td class="r num">1.152,74</td><td><span class="badge warn">λείπει IBAN</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Καραγιάννης Νίκος</b></td><td>Designer</td><td>SMP</td><td>Μερική · 5ω</td><td class="r num">950,00</td><td class="r num">764,90</td><td><span class="badge ok">Ενεργός</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Λάμπρου Δημήτρης</b></td><td>Support</td><td>CS</td><td>Πλήρης</td><td class="r num">1.380,00</td><td class="r num">1.098,41</td><td><span class="badge ok">Ενεργός</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Μαυρίδης Θοδωρής</b></td><td>Support</td><td>CS</td><td>Πλήρης</td><td class="r num">1.300,00</td><td class="r num">1.036,60</td><td><span class="badge mut">αποχώρησε 31/07</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Μιχαηλίδη Άννα</b></td><td>Back-end Developer</td><td>CS</td><td>Πλήρης</td><td class="r num">1.950,00</td><td class="r num">1.537,60</td><td><span class="badge ok">Ενεργή</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Νικολάου Σοφία</b></td><td>Content Lead</td><td>SMP</td><td>Πλήρης</td><td class="r num">1.700,00</td><td class="r num">1.346,55</td><td><span class="badge ok">Ενεργή</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Οικονόμου Πέτρος</b></td><td>QA</td><td>CS</td><td>Πλήρης</td><td class="r num">1.500,00</td><td class="r num">1.191,50</td><td><span class="badge ok">Ενεργός</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Παπαδοπούλου Μαρία</b></td><td>Front-end Developer</td><td>CS</td><td>Πλήρης</td><td class="r num">1.850,00</td><td class="r num">1.463,28</td><td><span class="badge ok">Ενεργή</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Παππάς Χρήστος</b></td><td>Sales</td><td>SMP</td><td>Πλήρης</td><td class="r num">1.450,00</td><td class="r num">1.152,74</td><td><span class="badge ok">Ενεργός</span></td></tr>
-                <tr onclick="go('employee')"><td><b>Σταθοπούλου Ειρήνη</b></td><td>Office</td><td>Core</td><td>Μερική · 4ω</td><td class="r num">820,00</td><td class="r num">663,25</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Αντωνίου Γιώργος</b></td><td>Account Manager</td><td>Πωλήσεις</td><td>Πλήρης</td><td class="r num">1.620,00</td><td class="r num">1.286,10</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Βασιλείου Κατερίνα</b></td><td>Team Lead</td><td>Διοίκηση</td><td>Πλήρης</td><td class="r num">2.100,00</td><td class="r num">1.648,90</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Δήμου Ελένη</b></td><td>Operations</td><td>Διοίκηση</td><td>Πλήρης</td><td class="r num">1.450,00</td><td class="r num">1.152,74</td><td><span class="badge warn">λείπει IBAN</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Καραγιάννης Νίκος</b></td><td>Designer</td><td>Πωλήσεις</td><td>Μερική · 5ω</td><td class="r num">950,00</td><td class="r num">764,90</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Λάμπρου Δημήτρης</b></td><td>Support</td><td>Εξυπηρέτηση</td><td>Πλήρης</td><td class="r num">1.380,00</td><td class="r num">1.098,41</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Μαυρίδης Θοδωρής</b></td><td>Support</td><td>Εξυπηρέτηση</td><td>Πλήρης</td><td class="r num">1.300,00</td><td class="r num">1.036,60</td><td><span class="badge mut">αποχώρησε 31/07</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Μιχαηλίδη Άννα</b></td><td>Back-end Developer</td><td>Εξυπηρέτηση</td><td>Πλήρης</td><td class="r num">1.950,00</td><td class="r num">1.537,60</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Νικολάου Σοφία</b></td><td>Content Lead</td><td>Πωλήσεις</td><td>Πλήρης</td><td class="r num">1.700,00</td><td class="r num">1.346,55</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Οικονόμου Πέτρος</b></td><td>QA</td><td>Εξυπηρέτηση</td><td>Πλήρης</td><td class="r num">1.500,00</td><td class="r num">1.191,50</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Παπαδοπούλου Μαρία</b></td><td>Front-end Developer</td><td>Εξυπηρέτηση</td><td>Πλήρης</td><td class="r num">1.850,00</td><td class="r num">1.463,28</td><td><span class="badge ok">Ενεργή</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Παππάς Χρήστος</b></td><td>Sales</td><td>Πωλήσεις</td><td>Πλήρης</td><td class="r num">1.450,00</td><td class="r num">1.152,74</td><td><span class="badge ok">Ενεργός</span></td></tr>
+                <tr onclick="go('employee')"><td><b>Σταθοπούλου Ειρήνη</b></td><td>Office</td><td>Διοίκηση</td><td>Μερική · 4ω</td><td class="r num">820,00</td><td class="r num">663,25</td><td><span class="badge ok">Ενεργή</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -590,7 +603,7 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
                 <div class="f" style="grid-column:1/-1"><div class="k">Έδρα</div><div class="v">Δημητρίου Γούναρη 10, Θεσσαλονίκη</div></div>
                 <div class="f" style="grid-column:1/-1"><div class="k">Τμήματα</div>
                   <div class="v" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
-                    <span class="chip">SMP</span><span class="chip">CS</span><span class="chip">Core</span>
+                    <span class="chip">Πωλήσεις</span><span class="chip">Εξυπηρέτηση</span><span class="chip">Διοίκηση</span>
                     <button class="btn btn-ghost" style="padding:2px 8px;font-size:.75rem">+ Νέο τμήμα</button>
                   </div>
                 </div>
@@ -620,21 +633,24 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
           <!-- users & roles -->
           <section class="card">
             <div class="hd">Χρήστες &amp; ρόλοι
+              <span class="info" tabindex="0" aria-label="Πληροφορίες ρόλων">
+                <svg class="i" style="width:15px;height:15px"><use href="#ic-info"/></svg>
+                <span class="tip" role="tooltip">Ο «Λογιστής» έχει πλήρη πρόσβαση σε υπολογισμούς και αρχεία — χωρίς δικαίωμα διαγραφής του οργανισμού.</span>
+              </span>
               <span class="spacer" style="flex:1"></span>
               <button class="btn btn-pri" style="padding:6px 12px"><svg class="i" style="width:15px;height:15px"><use href="#ic-plus"/></svg> Πρόσκληση</button>
             </div>
             <div class="bd">
               <div class="row">
                 <span class="avatar" style="width:34px;height:34px">ΧΡ</span>
-                <span class="t"><b>Εσύ</b> <span class="sub2">— πλήρης πρόσβαση</span></span>
+                <span class="t"><b>Εσύ</b></span>
                 <span class="badge mut">Ιδιοκτήτης</span>
               </div>
               <div class="row">
-                <span class="avatar" style="width:34px;height:34px;background:var(--accent-soft);color:var(--accent)">ΛΟ</span>
-                <span class="t"><b>Ο λογιστής σου</b> <span class="sub2">— βλέπει &amp; εγκρίνει, δεν χρειάζεται να περιμένεις</span></span>
+                <span class="avatar" style="width:34px;height:34px;background:var(--accent-soft);color:var(--accent)">ΓΟ</span>
+                <span class="t"><b>Γιώργος Οικονόμου</b> <span class="sub2">Λογιστής</span></span>
                 <span class="badge warn">εκκρεμεί αποδοχή</span>
               </div>
-              <p class="sub" style="margin-top:12px;font-size:.78125rem">Ο ρόλος «Λογιστής» έχει πλήρη πρόσβαση στους υπολογισμούς και τα αρχεία, χωρίς δικαίωμα διαγραφής οργανισμού.</p>
             </div>
           </section>
 
@@ -678,7 +694,7 @@ h1{font-size:1.375rem;font-weight:700;letter-spacing:-.015em}
           <span class="eava">ΜΠ</span>
           <div class="grow">
             <h1>Μαρία Παπαδοπούλου</h1>
-            <p class="sub">Front-end Developer · Τμήμα CS · <span class="badge ok">Ενεργή</span></p>
+            <p class="sub">Front-end Developer · Τμήμα Εξυπηρέτησης · <span class="badge ok">Ενεργή</span></p>
           </div>
           <div class="completeness">
             <span>Πληρότητα στοιχείων</span>
